@@ -138,12 +138,14 @@ app_license = "mit"
 # Hook on document methods and events
 
 # doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
+# 	"Item": {
+# 		"validate": "masar_qadri.custom.item.item.validate"
 # 	}
 # }
+
+doctype_js = {
+   "Item": "custom/item/item.js"
+}
 
 # Scheduled Tasks
 # ---------------
@@ -242,3 +244,14 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+fixtures = [
+    {"dt": "Custom Field", "filters": [
+        [
+            "name", "in", [
+                "Item Attribute Value-custom_description",
+                "Item Attribute Value-custom_color",
+                "Item Variant Attribute-custom_color_code"
+            ]
+        ]
+    ]}
+]
