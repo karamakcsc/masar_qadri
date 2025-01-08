@@ -47,38 +47,55 @@ def description_property(self):
 
 def rename_with_description(self):
     if self.has_variants == 1: 
-        new_name = ''
-        new_des_code = self.custom_description_code
         i = frappe.qb.DocType(self.doctype)
-        abbr_list = [self.name]
         variants = (
                 frappe.qb.from_(i)
-                .select(i.name)
+                .select(i.name , i.custom_description_code)
                 .where(i.variant_of == self.name )
                 .run(as_dict= True )
         )
         if len(variants) != 0 :
-            for var in variants:
-                splitted_var = (var.name).split('-')
-                var_doc = frappe.get_doc(self.doctype , var.name)
-                for a in var_doc.attributes:
-                    abbr = frappe.db.get_value(
-                        'Item Attribute Value' ,
-                        fieldname=["abbr"], 
-                        filters={'parent':a.attribute , 'attribute_value': a.attribute_value }
-                    )
-                    abbr_list.append(abbr)
-                privious_descrition_code_list = [des for des in splitted_var if des not in  abbr_list ]
-                if len(privious_descrition_code_list) != 0: 
-                    new_name =sub(privious_descrition_code_list[0] , self.custom_description_code,var.name)
-                    var_doc.custom_description_code = new_des_code
-                    var_doc.save()
-                
-                    if (var.name  !=  new_name):
-                        frappe.rename_doc(
-                            doctype=self.doctype,
-                            old= var.name, 
-                            new= new_name, 
-                            show_alert=True
-                            )
-                    frappe.db.commit()
+            if len(variants) < 10: 
+                rename_variants(self , variants )
+            else: 
+                frappe.enqueue(
+                    "masar_qadri.custom.item.item.rename_variants",
+                    self=self,
+                    variants=variants
+                )
+                frappe.msgprint("Variant Items has been queued.",
+								indicator= "orange",
+                                alert=True
+							)
+            
+            
+            
+def rename_variants(self , variants ):
+    abbr_list = list()
+    new_name = ''
+    new_des_code = self.custom_description_code
+    for var in variants:
+        if var.custom_description_code != new_des_code:
+            splitted_var = (var.name).split('-')
+            var_doc = frappe.get_doc(self.doctype , var.name)
+            for a in var_doc.attributes:
+                abbr = frappe.db.get_value(
+                    'Item Attribute Value' ,
+                    fieldname=["abbr"], 
+                    filters={'parent':a.attribute , 'attribute_value': a.attribute_value }
+                )
+                abbr_list.append(abbr)
+            privious_description_code_list = [des for des in splitted_var if des not in  abbr_list ]
+            if len(privious_description_code_list) != 0: 
+                new_name =sub(privious_description_code_list[0] , self.custom_description_code,var.name)
+                var_doc.custom_description_code = new_des_code
+                var_doc.save()
+            
+                if (var.name  !=  new_name):
+                    frappe.rename_doc(
+                        doctype=self.doctype,
+                        old= var.name, 
+                        new= new_name, 
+                        show_alert=True
+                        )
+                frappe.db.commit()
