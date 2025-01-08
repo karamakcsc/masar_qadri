@@ -137,11 +137,11 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"Item": {
-# 		"validate": "masar_qadri.custom.item.item.validate"
-# 	}
-# }
+doc_events = {
+	"Item": {
+		"validate": "masar_qadri.custom.item.item.validate"
+	}
+}
 
 doctype_js = {
    "Item": "custom/item/item.js"
@@ -255,3 +255,6 @@ fixtures = [
         ]
     ]}
 ]
+from erpnext.controllers import item_variant
+from masar_qadri.override import item 
+item_variant.make_variant_item_code = item.make_variant_item_code
