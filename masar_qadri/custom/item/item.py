@@ -21,7 +21,7 @@ def get_color_code(name):
                                 `tabItem Attribute Value` tiav ON tia.name = tiav.parent
                             WHERE 
                                 ti.name = %s 
-                                AND tiva.`attribute` = 'Colour' 
+                                AND tiva.`attribute` = 'Color' 
                                 AND tiva.attribute_value = tiav.attribute_value 
                            """,(name), as_dict=True)
     
