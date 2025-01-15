@@ -176,9 +176,10 @@ doctype_js = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "masar_qadri.event.get_events"
-# }
+override_whitelisted_methods = {
+	"erpnext.controllers.item_variant.enqueue_multiple_variant_creation": "masar_qadri.override.item.enqueue_multiple_variant_creation", 
+    "erpnext.controllers.item_variant.create_variant": "masar_qadri.override.item.create_variant"
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,

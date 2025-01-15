@@ -11,27 +11,6 @@ frappe.ui.form.on("Item", {
     }
 });
 
-function set_color_code(frm) {
-    if (frm.doc.variant_of && frm.doc.attributes) {
-        frappe.call({
-            method: "masar_qadri.custom.item.item.get_color_code",
-            args: {
-                name: frm.doc.name
-            },
-            callback: function(r) {
-                if (r.message) {
-                    console.log(r.message);
-                    frm.doc.attributes.forEach(row => {
-                        if (row.attribute === "Color") {
-                            frappe.model.set_value(row.doctype, row.name, "custom_color_code", r.message);
-                        }
-                    });
-                    frm.refresh_field("attributes");
-                }
-            }
-        });
-    }
-}
 function DescriptionProperty(frm) { 
     frappe.call({
         method:"masar_qadri.custom.item.item.description_property", 
@@ -39,7 +18,9 @@ function DescriptionProperty(frm) {
             self: JSON.stringify(frm.doc)
         }, 
         callback: function(r){
+            if (r.message){
             frm.set_df_property('custom_description_code', 'read_only', r.message);
+            }
         }
     })
 }
@@ -53,3 +34,23 @@ frappe.ui.form.on("Item Variant Attribute", {
         DescriptionProperty(frm);
     }
 });
+
+function set_color_code(frm) {
+    if (frm.doc.variant_of && frm.doc.attributes) {
+        frappe.call({
+            method: "masar_qadri.custom.item.item.get_color_code",
+            args: {
+                name: frm.doc.name
+            },
+            callback: function(r) {
+                if (r.message) {
+                    let colorRow = frm.doc.attributes.find(row => row.attribute === "Color");
+                    if (colorRow) {
+                        colorRow.custom_color_code = r.message;
+                        frm.refresh_field("attributes");
+                    }
+                }
+            }
+        });
+    }
+}
