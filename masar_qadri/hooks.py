@@ -250,7 +250,8 @@ fixtures = [
             "name", "in", [
                 "Item Attribute Value-custom_description",
                 "Item Attribute Value-custom_color",
-                "Item Variant Attribute-custom_color_code"
+                "Item Variant Attribute-custom_color_code",
+                "Item-custom_description_code"
             ]
         ]
     ]}
