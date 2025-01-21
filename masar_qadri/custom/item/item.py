@@ -1,9 +1,11 @@
 import frappe
 from json import loads
 from re import sub
+from datetime import datetime
 
 def validate(self , method ): 
     rename_with_description(self)
+    generate_barcode(self)
     
 
 @frappe.whitelist()
@@ -99,3 +101,27 @@ def rename_variants(self , variants ):
                         show_alert=True
                         )
                 frappe.db.commit()
+                
+def generate_barcode(self):
+    if len(self.barcodes) != 0:
+        return
+    
+    current_year = datetime.now().year
+    existing_barcodes_sql = frappe.db.sql("""
+            SELECT MAX(tib.barcode) AS `barcode`
+            FROM `tabItem Barcode` tib
+            WHERE tib.barcode LIKE %s
+            """, (f"{current_year}%"), as_dict=True)
+    if existing_barcodes_sql and existing_barcodes_sql[0] and existing_barcodes_sql[0]['barcode']:
+        max_number = existing_barcodes_sql[0]['barcode']
+        serial_num = int(max_number[4:])
+        serial = "{:08d}".format(serial_num + 1)
+        new_barcode = f"{current_year}{serial}"
+    else:
+        serial = "{:08d}".format(1)
+        new_barcode = f"{current_year}{serial}"
+    if new_barcode:
+        self.append('barcodes', {
+            "barcode": new_barcode
+        })
+    
