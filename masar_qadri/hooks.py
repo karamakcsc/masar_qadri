@@ -252,7 +252,9 @@ fixtures = [
                 "Item Attribute Value-custom_description",
                 "Item Attribute Value-custom_color",
                 "Item Variant Attribute-custom_color_code",
-                "Item-custom_description_code"
+                "Item-custom_description_code",
+                "Item-custom_item_name_ar",
+                "Stock Entry-custom_transaction_type"
             ]
         ]
     ]}
