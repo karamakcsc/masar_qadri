@@ -234,7 +234,7 @@
   "collapsible": 0,
   "collapsible_depends_on": null,
   "columns": 0,
-  "default": "Normal Return",
+  "default": "",
   "depends_on": "eval: doc.stock_entry_type == \"Material Transfer\";",
   "description": null,
   "docstatus": 0,
