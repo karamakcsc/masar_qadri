@@ -266,7 +266,7 @@
   "name": "Stock Entry-custom_transaction_type",
   "no_copy": 0,
   "non_negative": 0,
-  "options": "\nNormal Return\nSeason Return\nDamaged Return",
+  "options": "\nNormal Return\nSeason Return\nDamaged Return\nOnline Return",
   "permlevel": 0,
   "placeholder": null,
   "precision": "",
