@@ -9,11 +9,11 @@ class UpdateItemCode(Document):
 	@frappe.whitelist()
 	def enqueue_update(queue="long", timeout=3000):
 		frappe.enqueue(
-        "update_name",
-        queue=queue,
-        timeout=timeout
-    )
-    return "Enqueued job to update item names and codes."
+		"update_name",
+		queue=queue,
+		timeout=timeout
+	)
+
  
 	def update_name():
 		items_sql = frappe.db.sql("""

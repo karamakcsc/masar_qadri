@@ -4,7 +4,7 @@
 frappe.ui.form.on("Update Item Code", {
 	update: function(frm) {
         frappe.call({
-            method: "update_name",
+            method: "enqueue_update",
             callback: function(r) {
                 console.log("Teeeeeeeeeeeeez");
             }
