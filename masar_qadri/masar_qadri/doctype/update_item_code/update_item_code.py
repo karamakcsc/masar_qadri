@@ -7,11 +7,13 @@ from frappe.model.document import Document
 
 class UpdateItemCode(Document):
 	@frappe.whitelist()
-	def enqueue_update(
-     update_name, 
-     queue="long", 
-     timeout=3000
-                    )
+	def enqueue_update(queue="long", timeout=3000):
+		frappe.enqueue(
+        "update_name",
+        queue=queue,
+        timeout=timeout
+    )
+    return "Enqueued job to update item names and codes."
  
 	def update_name():
 		items_sql = frappe.db.sql("""
