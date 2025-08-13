@@ -15,7 +15,7 @@ class UpdateItemCode(Document):
 	)
 
 	@frappe.whitelist()
-	def update_name():
+	def update_name(self):
 		items_sql = frappe.db.sql("""
             SELECT name, item_code
 			FROM tabItem
