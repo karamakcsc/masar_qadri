@@ -14,7 +14,7 @@ class UpdateItemCode(Document):
 		timeout=3000
 	)
 
- 
+	@frappe.whitelist()
 	def update_name():
 		items_sql = frappe.db.sql("""
             SELECT name, item_code
