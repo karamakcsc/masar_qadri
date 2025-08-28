@@ -140,7 +140,13 @@ app_license = "mit"
 doc_events = {
 	"Item": {
 		"validate": "masar_qadri.custom.item.item.validate"
-	}
+	},
+    "Sales Invoice": {
+        "before_submit": "masar_qadri.custom.sales_invoice.sales_invoice.before_submit"
+    },
+    "POS Invoice": {
+        "before_submit": "masar_qadri.custom.sales_invoice.sales_invoice.before_submit"
+    }
 }
 
 doctype_js = {
@@ -254,7 +260,11 @@ fixtures = [
                 "Item Variant Attribute-custom_color_code",
                 "Item-custom_description_code",
                 "Item-custom_item_name_ar",
-                "Stock Entry-custom_transaction_type"
+                "Stock Entry-custom_transaction_type",
+                "Sales Invoice Item-custom_sales_person",
+                "Sales Invoice Item-custom_section_break_wgrcq",
+                "POS Invoice Item-custom_section_break_kipmn",
+                "POS Invoice Item-custom_sales_person"
             ]
         ]
     ]}
