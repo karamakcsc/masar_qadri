@@ -1,0 +1,34 @@
+frappe.ui.form.on("Stock Entry", {
+    custom_target_location: function(frm) {
+        set_values_based_on_target_location(frm);
+    },
+    refresh: function(frm) {
+        set_target_location(frm);
+    }
+});
+
+
+function set_values_based_on_target_location(frm) {
+    if (frm.doc.custom_target_location && !frm.doc.outgoing_stock_entry) {
+        frm.doc.add_to_transit = 1;
+        frm.set_df_property("add_to_transit", "read_only", 1);
+        frm.refresh_field("add_to_transit");
+        frm.doc.to_warehouse = "Transit - QH";
+        frm.refresh_field("to_warehouse");
+        frm.doc.items.forEach(item => {
+            item.t_warehouse = "Transit - QH";
+        });
+        frm.refresh_field("items");
+    }
+}
+
+function set_target_location(frm) {
+    if (frm.doc.outgoing_stock_entry && frm.doc.custom_target_location) {
+        frm.doc.to_warehouse = frm.doc.custom_target_location;
+        frm.refresh_field("to_warehouse");
+        frm.doc.items.forEach(item => {
+            item.t_warehouse = frm.doc.custom_target_location;
+        });
+        frm.refresh_field("items");
+    }
+}

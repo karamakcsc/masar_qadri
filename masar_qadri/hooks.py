@@ -150,7 +150,8 @@ doc_events = {
 }
 
 doctype_js = {
-   "Item": "custom/item/item.js"
+   "Item": "custom/item/item.js",
+   "Stock Entry": "custom/stock_entry/stock_entry.js",
 }
 
 # Scheduled Tasks
@@ -264,7 +265,9 @@ fixtures = [
                 "Sales Invoice Item-custom_sales_person",
                 "Sales Invoice Item-custom_section_break_wgrcq",
                 "POS Invoice Item-custom_section_break_kipmn",
-                "POS Invoice Item-custom_sales_person"
+                "POS Invoice Item-custom_sales_person",
+                "Stock Entry Detail-custom_remarks",
+                "Stock Entry Detail-custom_section_break_e82qh"
             ]
         ]
     ]}
