@@ -21,6 +21,10 @@ def execute(filters=None):
 
 	for d in entries:
 		if d.stock_qty > 0 or filters.get("show_return_entries", 0):
+			qty = d.stock_qty
+			amount = d.base_net_amount
+			upt = qty / 1  # since one POS Invoice is considered one transaction
+			utv = amount / qty if qty else 0
 			data.append(
 				[
 					d.name,
@@ -31,10 +35,12 @@ def execute(filters=None):
 					d.item_code,
 					item_details.get(d.item_code, {}).get("item_group"),
 					item_details.get(d.item_code, {}).get("description_code"),
-					d.stock_qty,
-					d.base_net_amount,
+					qty,
+					amount,
+					upt,
+					utv,
 					d.allocated_percentage,
-					(d.stock_qty * d.allocated_percentage / 100),
+					(qty * d.allocated_percentage / 100),
 					company_currency,
 				]
 			)
@@ -101,6 +107,8 @@ def get_columns(filters):
 			"fieldtype": "Currency",
 			"width": 140,
 		},
+		{"label": _("UPT"), "fieldname": "upt", "fieldtype": "Float", "width": 100},
+        {"label": _("UTV"), "fieldname": "utv", "fieldtype": "Currency", "width": 120},
 		{
 			"label": _("Currency"),
 			"options": "Currency",

@@ -152,6 +152,7 @@ doc_events = {
 doctype_js = {
    "Item": "custom/item/item.js",
    "Stock Entry": "custom/stock_entry/stock_entry.js",
+   "Purchase Order": "custom/purchase_order/purchase_order.js"
 }
 
 # Scheduled Tasks
@@ -267,7 +268,21 @@ fixtures = [
                 "POS Invoice Item-custom_section_break_kipmn",
                 "POS Invoice Item-custom_sales_person",
                 "Stock Entry Detail-custom_remarks",
-                "Stock Entry Detail-custom_section_break_e82qh"
+                "Stock Entry Detail-custom_section_break_e82qh",
+                "Stock Entry-custom_section_break_u4abs"
+            ]
+        ]
+    ]},
+    {"dt": "Property Setter", "filters": [
+        [
+            "name", "in", [
+                "Purchase Order Item-rate-permlevel",
+                "Purchase Order Item-amount-permlevel",
+                "Purchase Order Item-base_rate-permlevel",
+                "Purchase Order Item-base_amount-permlevel",
+                "Stock Entry-main-field_order",
+                "Stock Entry Detail-basic_rate-permlevel",
+                "Stock Entry-remarks-print_hide"
             ]
         ]
     ]}

@@ -1,0 +1,30 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "doc.workflow_state==\"Pending\"",
+ "creation": "2025-09-13 19:24:12.883585",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Purchase Order",
+ "enabled": 1,
+ "event": "Value Change",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Add your message here",
+ "message_type": "Markdown",
+ "modified": "2025-09-13 19:24:12.883585",
+ "modified_by": "Administrator",
+ "module": "Masar Qadri",
+ "name": "PO Notification",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "Purchase Manager"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "{{ doc.name }} needs further approving",
+ "value_changed": "workflow_state"
+}

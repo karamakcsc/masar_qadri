@@ -1,0 +1,29 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.is_return==1",
+ "creation": "2025-09-13 17:13:28.780873",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "POS Invoice",
+ "enabled": 1,
+ "event": "Submit",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<h3>Order Returned</h3>\r\n\r\n<p>Transaction {{ doc.name }} has been returned.</p>\r\n\r\n<h4>Details</h4>\r\n\r\n<ul>\r\n<li>Customer: {{ doc.customer }}\r\n<li>Return Agains: {{ doc.return_against }}\r\n<li>Branch: {{ doc.pos_profile }}\r\n</ul>",
+ "message_type": "Markdown",
+ "modified": "2025-09-13 17:13:28.780873",
+ "modified_by": "Administrator",
+ "module": "Masar Qadri",
+ "name": "Sales Return",
+ "owner": "Administrator",
+ "recipients": [
+  {}
+ ],
+ "send_system_notification": 1,
+ "send_to_all_assignees": 0,
+ "sender": "",
+ "sender_email": "",
+ "subject": "{{ doc.name }} has been returned"
+}
