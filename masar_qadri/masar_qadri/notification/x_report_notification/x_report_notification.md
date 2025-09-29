@@ -1,0 +1,1 @@
+<p>X Report has been created by {{ doc.queued_by }} at {{ doc.queued_at }}</p>

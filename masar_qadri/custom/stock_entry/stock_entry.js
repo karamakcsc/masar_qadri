@@ -36,10 +36,9 @@ function set_target_location(frm) {
     if (frm.doc.outgoing_stock_entry && frm.doc.custom_target_location) {
         frm.doc.to_warehouse = frm.doc.custom_target_location;
         frm.refresh_field("to_warehouse");
-        frm.doc.items = [];
-        // frm.doc.items.forEach(item => {
-        //     item.t_warehouse = frm.doc.custom_target_location;
-        // });
+        frm.doc.items.forEach(item => {
+            item.t_warehouse = frm.doc.custom_target_location;
+        });
         frm.refresh_field("items");
     }
 }

@@ -6,6 +6,6 @@
 
 <ul>
 <li>Customer: {{ doc.customer }}
-<li>Return Agains: {{ doc.return_against }}
+<li>Return Against: {{ doc.return_against }}
 <li>Branch: {{ doc.pos_profile }}
 </ul>

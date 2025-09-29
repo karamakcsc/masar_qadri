@@ -269,7 +269,8 @@ fixtures = [
                 "POS Invoice Item-custom_sales_person",
                 "Stock Entry Detail-custom_remarks",
                 "Stock Entry Detail-custom_section_break_e82qh",
-                "Stock Entry-custom_section_break_u4abs"
+                "Stock Entry-custom_section_break_u4abs",
+                "POS Profile-custom_security_password"
             ]
         ]
     ]},
@@ -282,7 +283,9 @@ fixtures = [
                 "Purchase Order Item-base_amount-permlevel",
                 "Stock Entry-main-field_order",
                 "Stock Entry Detail-basic_rate-permlevel",
-                "Stock Entry-remarks-print_hide"
+                "Stock Entry-remarks-print_hide",
+                "Stock Entry-from_warehouse-mandatory_depends_on",
+                "Stock Entry-to_warehouse-reqd"
             ]
         ]
     ]}
