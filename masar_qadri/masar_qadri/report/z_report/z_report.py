@@ -18,7 +18,7 @@ def execute(filters=None):
 def get_columns():
     return [
         {"label": _("Date"), "fieldname": "posting_date", "fieldtype": "Date", "width": 120},
-        {"label": _("POS Profile"), "fieldname": "pos_profile", "fieldtype": "Link", "options": "POS Profile", "width": 180},
+        {"label": _("POS Profile"), "fieldname": "pos_profile", "fieldtype": "Data", "width": 180},
         {"label": _("Mode of Payment"), "fieldname": "mode_of_payment", "fieldtype": "Link", "options": "Mode of Payment", "width": 180},
         {"label": _("Opening Amount"), "fieldname": "opening_amount", "fieldtype": "Currency", "width": 130},
         {"label": _("Closing Amount"), "fieldname": "closing_amount", "fieldtype": "Currency", "width": 130},
