@@ -18,6 +18,8 @@ def execute(filters=None):
 	data = []
 
 	company_currency = get_company_currency(filters.get("company"))
+ 
+	total_qty = total_amount = total_upt = total_utv = count = 0
 
 	for d in entries:
 		if d.stock_qty > 0 or filters.get("show_return_entries", 0):
@@ -42,12 +44,26 @@ def execute(filters=None):
 					d.allocated_percentage,
 					(qty * d.allocated_percentage / 100),
 					company_currency,
-				]
-			)
+				])
+			total_qty += qty
+			total_amount += amount
+			total_upt += upt
+			total_utv += utv
+			count += 1
 
-	if data:
-		total_row = [""] * len(data[0])
-		data.append(total_row)
+	if count > 0:
+		avg_upt = total_upt / count
+		avg_utv = total_utv / count
+
+		# Add a visual separator (optional)
+		data.append([""] * len(columns))
+
+		# Add averages row with label and values
+		avg_row = [""] * len(columns)
+		avg_row[7] = _("Averages")  # place label under Description Code column
+		avg_row[10] = avg_upt
+		avg_row[11] = avg_utv
+		data.append(avg_row)
 
 	return columns, data
 
@@ -108,7 +124,7 @@ def get_columns(filters):
 			"width": 140,
 		},
 		{"label": _("UPT"), "fieldname": "upt", "fieldtype": "Float", "width": 100},
-        {"label": _("UTV"), "fieldname": "utv", "fieldtype": "Currency", "width": 120},
+        {"label": _("ATV"), "fieldname": "utv", "fieldtype": "Currency", "width": 120},
 		{
 			"label": _("Currency"),
 			"options": "Currency",

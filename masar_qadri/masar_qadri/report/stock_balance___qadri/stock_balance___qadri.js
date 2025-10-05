@@ -17,7 +17,7 @@ frappe.query_reports["Stock Balance - Qadri"] = {
 			fieldtype: "Date",
 			width: "80",
 			reqd: 1,
-			default: frappe.datetime.add_months(frappe.datetime.get_today(), -1),
+			default: frappe.datetime.get_today(),
 		},
 		{
 			fieldname: "to_date",
@@ -61,6 +61,24 @@ frappe.query_reports["Stock Balance - Qadri"] = {
 					},
 				};
 			},
+		},
+		{
+			fieldname: "article",
+			label: __("Article"),
+			fieldtype: "Data",
+			width: "80",
+		},
+		{
+			fieldname: "season",
+			label: __("Season"),
+			fieldtype: "Data",
+			width: "80",
+		},
+		{
+			fieldname: "color",
+			label: __("Color"),
+			fieldtype: "Data",
+			width: "80",
 		},
 		{
 			fieldname: "show_variant_attributes",

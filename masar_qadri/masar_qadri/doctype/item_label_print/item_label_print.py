@@ -10,7 +10,7 @@ from frappe.model.document import Document
 
 
 class ItemLabelPrint(Document):
-	def validate(self):
+	def on_submit(self):
 		generate_barcode_py(self)
 		
 	@frappe.whitelist()

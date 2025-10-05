@@ -4,7 +4,7 @@ frappe.ui.form.on("Stock Entry", {
         set_transaction_type_ro(frm);
     },
     refresh: function(frm) {
-        set_target_location(frm);
+        set_target_location(frm, false);
         set_default_warehouse_rec(frm);
         set_transaction_type_ro(frm);
     },
@@ -14,6 +14,9 @@ frappe.ui.form.on("Stock Entry", {
     },
     from_warehouse: function(frm) {
         set_transaction_type_ro(frm);
+    },
+    onload: function(frm) {
+        set_target_location(frm, true);
     }
 });
 
@@ -23,8 +26,10 @@ function set_values_based_on_target_location(frm) {
         frm.doc.add_to_transit = 1;
         frm.set_df_property("add_to_transit", "read_only", 1);
         frm.refresh_field("add_to_transit");
+
         frm.doc.to_warehouse = "Transit - QH";
         frm.refresh_field("to_warehouse");
+
         frm.doc.items.forEach(item => {
             item.t_warehouse = "Transit - QH";
         });
@@ -32,21 +37,32 @@ function set_values_based_on_target_location(frm) {
     }
 }
 
-function set_target_location(frm) {
+function set_target_location(frm, clear_items=false) {
     if (frm.doc.outgoing_stock_entry && frm.doc.custom_target_location) {
         frm.doc.to_warehouse = frm.doc.custom_target_location;
         frm.refresh_field("to_warehouse");
-        frm.doc.items.forEach(item => {
-            item.t_warehouse = frm.doc.custom_target_location;
-        });
-        frm.refresh_field("items");
+
+        let s_wh = "";
+        if (frm.doc.items && frm.doc.items.length > 0) {
+            s_wh = frm.doc.items[0].s_warehouse;
+        }
+
+        if (s_wh) {
+            frm.doc.from_warehouse = s_wh;
+            frm.refresh_field("from_warehouse");
+        }
+
+        if (clear_items) {
+            frm.clear_table("items");
+            frm.refresh_field("items");
+        }
     }
 }
-
 function set_default_warehouse_rec(frm) {
     if (!frm.doc.to_warehouse && frm.doc.docstatus == 0 && frm.doc.stock_entry_type == "Material Receipt") {
         frm.doc.to_warehouse = "MRK-MWH01 - QH";
         frm.refresh_field("to_warehouse");
+
         frm.doc.items.forEach(item => {
             item.t_warehouse = "MRK-MWH01 - QH";
         });

@@ -6,6 +6,8 @@ frappe.ui.form.on("Item Label Print", {
         frappe.call({
             doc: frm.doc,
             method: "fetch_items",
+            freeze: true,
+            freeze_message: "Fetching Items Please Wait..",
             callback: function(r) {
                 frm.refresh_field("items");
             }

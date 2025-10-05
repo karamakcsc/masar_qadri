@@ -306,6 +306,23 @@ class StockBalanceReport:
 			else:
 				query = query.where(item_table[field] == self.filters.get(field))
 
+		for attr in ["article", "season", "color"]:
+			if not self.filters.get(attr):
+				continue
+
+			attr_value = self.filters.get(attr)
+
+			item_variant_attr = frappe.qb.DocType("Item Variant Attribute")
+
+			query = (
+				query.join(item_variant_attr)
+				.on(item_variant_attr.parent == item_table.name)
+				.where(
+					(item_variant_attr.attribute == attr.capitalize())
+					& (item_variant_attr.attribute_value == attr_value)
+				)
+			)
+
 		return query
 
 	def apply_date_filters(self, query, sle) -> str:
