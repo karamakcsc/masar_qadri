@@ -2,14 +2,16 @@ import frappe
 
 @frappe.whitelist()
 def get_user_pos_profiles():
-    """Return all POS Profiles assigned to the current user."""
     user = frappe.session.user
 
-    profiles = frappe.db.get_all(
+    profiles = frappe.get_all(
         "POS Profile User",
         filters={"user": user},
         pluck="parent"
     )
+
+    if not profiles:
+        profiles = frappe.get_all("POS Profile", pluck="name")
 
     return profiles
 

@@ -35,30 +35,23 @@ frappe.query_reports["Z Report"] = {
 		frappe.call({
 			method: "masar_qadri.api.get_user_pos_profiles",
 			callback: function (r) {
-				const allowed_profiles = (r && r.message) ? r.message : [];
-
-				if (allowed_profiles.length) {
-					report.get_filter('pos_profile').get_query = function() {
-						return {
-							filters: [
-								['POS Profile', 'name', 'in', allowed_profiles]
-							]
-						};
-					};
-
-					if (allowed_profiles.length === 1) {
-						report.set_filter_value('pos_profile', allowed_profiles[0]);
-						report.get_filter('pos_profile').df.read_only = 1;
-					} else {
-						frappe.msgprint(__("Please select a POS Profile."));
-					}
-				} else {
-					frappe.msgprint(__("No POS Profile linked to your user."));
+				if (!r || !r.message) {
+					frappe.msgprint(__("Unable to load POS profiles for this user."));
+					return;
 				}
-			},
-			error: function(err) {
-				console.error("Error calling get_user_pos_profiles:", err);
-				frappe.msgprint(__("Failed to load POS profiles. Please check console for details."));
+
+				const allowed_profiles = r.message;
+
+				report.get_filter('pos_profile').get_query = function() {
+					return {
+						filters: [['POS Profile', 'name', 'in', allowed_profiles]]
+					};
+				};
+
+				if (allowed_profiles.length === 1) {
+					report.set_filter_value('pos_profile', allowed_profiles[0]);
+					report.get_filter('pos_profile').df.read_only = 1;
+				}
 			}
 		});
 	},
