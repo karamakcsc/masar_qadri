@@ -270,7 +270,8 @@ fixtures = [
                 "Stock Entry Detail-custom_remarks",
                 "Stock Entry Detail-custom_section_break_e82qh",
                 "Stock Entry-custom_section_break_u4abs",
-                "POS Profile-custom_security_password"
+                "POS Profile-custom_pos_supervisor",
+                "POS Profile-custom_section_break_peatv"
             ]
         ]
     ]},
