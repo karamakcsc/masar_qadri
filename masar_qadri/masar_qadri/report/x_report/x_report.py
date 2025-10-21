@@ -28,7 +28,7 @@ def get_data(filters=None):
                 tpi.name,
                 tsip.mode_of_payment AS famop,
                 SUM(tsip.amount) AS faamount
-            FROM `tabPOS Invoice` tpi
+            FROM `tabSales Invoice` tpi
             INNER JOIN `tabSales Invoice Payment` tsip ON tpi.name = tsip.parent
             WHERE tpi.docstatus = 1
             GROUP BY tsip.mode_of_payment

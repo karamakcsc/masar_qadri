@@ -142,11 +142,21 @@ doc_events = {
 		"validate": "masar_qadri.custom.item.item.validate"
 	},
     "Sales Invoice": {
-        "before_submit": "masar_qadri.custom.sales_invoice.sales_invoice.before_submit"
+        "before_submit": "masar_qadri.custom.sales_invoice.sales_invoice.before_submit",
+        "on_submit": "masar_qadri.notifications.sales_invoice.sales_invoice_notification"
     },
-    "POS Invoice": {
-        "before_submit": "masar_qadri.custom.sales_invoice.sales_invoice.before_submit"
-    }
+    "Item Attribute": {
+        "validate": "masar_qadri.custom.item_attribute.item_attribute.validate"
+    },
+    "Stock Entry": {
+        "on_submit": "masar_qadri.notifications.stock_entry.stock_entry_notification"
+    },
+    "POS Opening Shift": {
+        "on_submit": "masar_qadri.notifications.pos_shift.pos_opening_shift_notification"
+    },
+    "POS Closing Shift": {
+        "on_submit": "masar_qadri.notifications.pos_shift.pos_closing_shift_notification"
+    },
 }
 
 doctype_js = {
@@ -258,8 +268,6 @@ fixtures = [
         [
             "name", "in", [
                 "Item Attribute Value-custom_description",
-                "Item Attribute Value-custom_color",
-                "Item Variant Attribute-custom_color_code",
                 "Item-custom_description_code",
                 "Item-custom_item_name_ar",
                 "Stock Entry-custom_transaction_type",
@@ -271,7 +279,9 @@ fixtures = [
                 "Stock Entry Detail-custom_section_break_e82qh",
                 "Stock Entry-custom_section_break_u4abs",
                 "POS Profile-custom_pos_supervisor",
-                "POS Profile-custom_section_break_peatv"
+                "POS Profile-custom_section_break_peatv",
+                "Stock Entry-custom_target_location",
+                "Warehouse-custom_user"
             ]
         ]
     ]},
@@ -286,7 +296,13 @@ fixtures = [
                 "Stock Entry Detail-basic_rate-permlevel",
                 "Stock Entry-remarks-print_hide",
                 "Stock Entry-from_warehouse-mandatory_depends_on",
-                "Stock Entry-to_warehouse-reqd"
+                "Item-disabled-depends_on",
+                "Stock Entry-set_posting_time-depends_on",
+                "Stock Entry-inspection_required-depends_on",
+                "Stock Entry-apply_putaway_rule-depends_on",
+                "Stock Entry-bom_info_section-hidden",
+                "Stock Entry-section_break_7qsm-hidden",
+                "Customer-mobile_no-unique"
             ]
         ]
     ]}

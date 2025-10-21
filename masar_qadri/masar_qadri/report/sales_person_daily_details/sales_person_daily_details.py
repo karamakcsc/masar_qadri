@@ -18,10 +18,16 @@ def execute(filters=None):
 
 	company_currency = get_company_currency(filters.get("company"))
 
+	total_qty = 0
+	total_amount = 0
+	total_transactions = 0
+
 	for d in entries:
 		if d.stock_qty > 0 or filters.get("show_return_entries", 0):
 			qty = d.stock_qty
 			amount = d.amount
+			upt = qty / 1  # each Sales Invoice = one transaction
+			atv = amount / qty if qty else 0
 
 			data.append([
 				d.name,
@@ -30,41 +36,132 @@ def execute(filters=None):
 				d.customer,
 				d.warehouse,
 				d.posting_date,
-				d.posting_time,
 				d.item_code,
 				d.item_name,
 				item_details.get(d.item_code, {}).get("item_group"),
-				item_details.get(d.item_code, {}).get("description_code"),
-				item_details.get(d.item_code, {}).get("season"),
 				item_details.get(d.item_code, {}).get("article"),
+				item_details.get(d.item_code, {}).get("description_code"),
 				qty,
 				amount,
-				d.mode_of_payment,
+				upt,
+				atv,
 				company_currency,
 			])
+
+			total_qty += qty
+			total_amount += amount
+			total_transactions += 1
+
+	# Add average row
+	if total_transactions > 0:
+		avg_upt = total_qty / total_transactions
+		avg_atv = total_amount / total_qty if total_qty else 0
+
+		data.append([
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"<b>Average</b>",
+			"",
+			"",
+			"",
+			"",
+			"",
+			avg_upt,
+			avg_atv,
+			"",
+		])
 
 	return columns, data
 
 
 def get_columns(filters):
 	return [
-		{"label": _("Sales Invoice"), "options": "Sales Invoice", "fieldname": "sales_invoice", "fieldtype": "Link", "width": 140},
-		{"label": _("POS Profile"), "options": "POS Profile", "fieldname": "pos_profile", "fieldtype": "Link", "width": 140, "hidden": 1},
-		{"label": _("Sales Person"), "options": "Sales Person", "fieldname": "sales_person", "fieldtype": "Link", "width": 120},
-		{"label": _("Customer"), "options": "Customer", "fieldname": "customer", "fieldtype": "Link", "width": 160},
-		{"label": _("Warehouse"), "options": "Warehouse", "fieldname": "warehouse", "fieldtype": "Link", "width": 140, "hidden": 1},
-		{"label": _("Posting Date"), "fieldname": "posting_date", "fieldtype": "Date", "width": 120},
-		{"label": _("Posting Time"), "fieldname": "posting_time", "fieldtype": "Time", "width": 100},
-		{"label": _("Item Code"), "options": "Item", "fieldname": "item_code", "fieldtype": "Link", "width": 140,"hidden": 1},
-		{"label": _("Item Name"), "fieldname": "item_name", "fieldtype": "Data", "width": 220, "hidden": 1},
-		{"label": _("Item Group"), "options": "Item Group", "fieldname": "item_group", "fieldtype": "Link", "width": 140},
-		{"label": _("Description Code"), "fieldname": "description_code", "fieldtype": "Data", "width": 140},
-		{"label": _("Season"), "fieldname": "season", "fieldtype": "Data", "width": 120},
+		{
+			"label": _("Sales Invoice"),
+			"options": "Sales Invoice",
+			"fieldname": "sales_invoice",
+			"fieldtype": "Link",
+			"width": 140,
+		},
+		{
+			"label": _("POS Profile"),
+			"options": "POS Profile",
+			"fieldname": "pos_profile",
+			"fieldtype": "Link",
+			"width": 140,
+		},
+		{
+			"label": _("Sales Person"),
+			"options": "Sales Person",
+			"fieldname": "sales_person",
+			"fieldtype": "Link",
+			"width": 120,
+		},
+		{
+			"label": _("Customer"),
+			"options": "Customer",
+			"fieldname": "customer",
+			"fieldtype": "Link",
+			"width": 160,
+		},
+		{
+			"label": _("Warehouse"),
+			"options": "Warehouse",
+			"fieldname": "warehouse",
+			"fieldtype": "Link",
+			"width": 140,
+		},
+		{
+			"label": _("Posting Date"),
+			"fieldname": "posting_date",
+			"fieldtype": "Date",
+			"width": 120,
+		},
+		{
+			"label": _("Item Code"),
+			"options": "Item",
+			"fieldname": "item_code",
+			"fieldtype": "Link",
+			"width": 140,
+			"hidden": 1,
+		},
+		{
+			"label": _("Item Name"),
+			"fieldname": "item_name",
+			"fieldtype": "Data",
+			"width": 220,
+		},
+		{
+			"label": _("Item Group"),
+			"options": "Item Group",
+			"fieldname": "item_group",
+			"fieldtype": "Link",
+			"width": 140,
+		},
 		{"label": _("Article"), "fieldname": "article", "fieldtype": "Data", "width": 120},
+		{"label": _("Description Code"), "fieldname": "description_code", "fieldtype": "Data", "width": 140},
 		{"label": _("Invoice Total Qty"), "fieldname": "qty", "fieldtype": "Float", "width": 120},
-		{"label": _("Amount"), "options": "currency", "fieldname": "amount", "fieldtype": "Currency", "width": 140},
-		{"label": _("Mode of Payment"), "fieldname": "mode_of_payment", "fieldtype": "Data", "width": 200},
-		{"label": _("Currency"), "options": "Currency", "fieldname": "currency", "fieldtype": "Link", "hidden": 1},
+		{
+			"label": _("Amount"),
+			"options": "currency",
+			"fieldname": "amount",
+			"fieldtype": "Currency",
+			"width": 140,
+		},
+		{"label": _("UPT"), "fieldname": "upt", "fieldtype": "Float", "width": 100},
+		{"label": _("ATV"), "fieldname": "atv", "fieldtype": "Currency", "width": 120},
+		{
+			"label": _("Currency"),
+			"options": "Currency",
+			"fieldname": "currency",
+			"fieldtype": "Link",
+			"hidden": 1,
+		},
 	]
 
 
@@ -79,34 +176,28 @@ def get_entries(filters):
 			tsi.name,
 			tsi.customer,
 			tsi.posting_date AS posting_date,
-			tsi.posting_time AS posting_time,
 			tsi.pos_profile,
 			tsii.item_code,
 			tsii.item_name,
 			COALESCE(tsii.custom_sales_person,
-				(
-					SELECT tst.sales_person
-					FROM `tabSales Team` tst
-					WHERE tst.parent = tsi.name
-					AND tst.parenttype = 'Sales Invoice'
-					ORDER BY tst.idx ASC
-					LIMIT 1
-				)
-			) AS sales_person,
+                (
+                    SELECT tst.sales_person
+                    FROM `tabSales Team` tst
+                    WHERE tst.parent = tsi.name
+                    AND tst.parenttype = 'Sales Invoice'
+                    ORDER BY tst.idx ASC
+                    LIMIT 1
+                )
+            ) AS sales_person,
 			tsii.warehouse,
 			tsii.stock_qty,
-			tsii.amount,
-			(
-				SELECT GROUP_CONCAT(DISTINCT tsip.mode_of_payment ORDER BY tsip.idx SEPARATOR ', ')
-				FROM `tabSales Invoice Payment` tsip
-				WHERE tsip.parent = tsi.name AND tsip.amount > 0
-			) AS mode_of_payment
+			tsii.amount
 		FROM `tabSales Invoice` tsi
 		INNER JOIN  `tabSales Invoice Item` tsii ON tsii.parent = tsi.name
 		WHERE
 			tsi.docstatus = 1
 			{conditions}
-		ORDER BY posting_date, posting_time
+		ORDER BY sales_person, tsi.name DESC
 		""",
 		tuple(values),
 		as_dict=1,
@@ -143,6 +234,7 @@ def get_conditions(filters, date_field):
 		conditions.append("tsii.item_code in (%s)" % ", ".join(["%s"] * len(items)))
 		values += items
 	else:
+		# no items found, return nothing
 		conditions.append("tsii.item_code = Null")
 
 	return " and ".join(conditions), values
@@ -174,6 +266,7 @@ def get_items(filters):
 def get_item_details():
 	item_details = {}
 
+	# basic item info
 	for d in frappe.db.sql(
 		"""SELECT name, item_name, item_group, custom_description_code AS description_code 
 		FROM `tabItem`""",
@@ -181,15 +274,16 @@ def get_item_details():
 	):
 		item_details.setdefault(d.name, d)
 
-	attribute_data = frappe.db.sql(
-		"""SELECT parent, attribute, attribute_value 
+	# article attribute
+	article_data = frappe.db.sql(
+		"""SELECT parent, attribute_value 
 		FROM `tabItem Variant Attribute` 
-		WHERE attribute IN ('Article', 'Season')""",
+		WHERE attribute = 'Article'""",
 		as_dict=1,
 	)
 
-	for attr in attribute_data:
+	for attr in article_data:
 		if attr.parent in item_details:
-			item_details[attr.parent][attr.attribute.lower()] = attr.attribute_value
+			item_details[attr.parent]["article"] = attr.attribute_value
 
 	return item_details

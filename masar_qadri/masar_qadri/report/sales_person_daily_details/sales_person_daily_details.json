@@ -1,8 +1,8 @@
 {
- "add_total_row": 1,
+ "add_total_row": 0,
  "add_translate_data": 0,
  "columns": [],
- "creation": "2025-08-31 17:21:48.885806",
+ "creation": "2025-10-15 11:45:01.046363",
  "disabled": 0,
  "docstatus": 0,
  "doctype": "Report",
@@ -11,14 +11,14 @@
  "is_standard": "Yes",
  "letter_head": "Qadri Hijab Logo",
  "letterhead": null,
- "modified": "2025-10-15 11:49:18.600282",
+ "modified": "2025-10-15 15:44:49.539707",
  "modified_by": "Administrator",
  "module": "Masar Qadri",
- "name": "Sales Person Daily Summary",
+ "name": "Sales Person Daily Details",
  "owner": "Administrator",
  "prepared_report": 0,
  "ref_doctype": "Sales Invoice",
- "report_name": "Sales Person Daily Summary",
+ "report_name": "Sales Person Daily Details",
  "report_type": "Script Report",
  "roles": [
   {

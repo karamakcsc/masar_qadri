@@ -2,6 +2,7 @@ frappe.ui.form.on("Stock Entry", {
     custom_target_location: function(frm) {
         set_values_based_on_target_location(frm);
         set_transaction_type_ro(frm);
+        set_default_from_warehouse(frm);
     },
     refresh: function(frm) {
         set_target_location(frm, false);
@@ -11,6 +12,7 @@ frappe.ui.form.on("Stock Entry", {
     stock_entry_type: function(frm) {
         set_default_warehouse_rec(frm);
         set_transaction_type_ro(frm);
+        set_default_from_warehouse(frm);
     },
     from_warehouse: function(frm) {
         set_transaction_type_ro(frm);
@@ -38,7 +40,7 @@ function set_values_based_on_target_location(frm) {
 }
 
 function set_target_location(frm, clear_items=false) {
-    if (frm.doc.outgoing_stock_entry && frm.doc.custom_target_location) {
+    if (frm.doc.outgoing_stock_entry && frm.doc.custom_target_location && frm.doc.docstatus == 0) {
         frm.doc.to_warehouse = frm.doc.custom_target_location;
         frm.refresh_field("to_warehouse");
 
@@ -51,10 +53,12 @@ function set_target_location(frm, clear_items=false) {
             frm.doc.from_warehouse = s_wh;
             frm.refresh_field("from_warehouse");
         }
-
-        if (clear_items) {
-            frm.clear_table("items");
-            frm.refresh_field("items");
+        
+        if (!frappe.user.has_role("Stock Manager")) {
+            if (clear_items) {
+                frm.clear_table("items");
+                frm.refresh_field("items");
+            }
         }
     }
 }
@@ -76,5 +80,30 @@ function set_transaction_type_ro(frm) {
         frm.set_df_property("custom_transaction_type", "read_only", 1);
         frm.doc.custom_transaction_type = "";
         frm.refresh_field("custom_transaction_type");
+    }
+}
+
+function set_default_from_warehouse(frm) {
+    console.log("set_default_from_warehouse called. doc:", frm.doc);
+    console.log("session user:", frappe.session && frappe.session.user);
+
+    if (frm.doc.docstatus !== 0) return;
+
+    if (frm.doc.stock_entry_type === "Material Transfer"
+        && !frm.doc.outgoing_stock_entry) {
+
+        const targetUser = "bab_almadina@qadri.jo";
+
+        if (frappe.session && frappe.session.user === targetUser) {
+            frm.set_value("from_warehouse", "ZQ-QDR03 - QH");
+
+            if (frm.doc.items && frm.doc.items.length) {
+                frm.doc.items.forEach(row => {
+                    frappe.model.set_value(row.doctype, row.name, "s_warehouse", "ZQ-QDR03 - QH");
+                });
+            }
+        } else {
+            console.log("User mismatch or session not available. expected:", targetUser, "got:", frappe.session && frappe.session.user);
+        }
     }
 }

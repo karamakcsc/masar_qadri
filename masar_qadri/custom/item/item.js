@@ -1,6 +1,5 @@
 frappe.ui.form.on("Item", {
     onload: function(frm) {
-        set_color_code(frm);
         DescriptionProperty(frm);
     }, 
     refresh: function(frm){ 
@@ -34,23 +33,3 @@ frappe.ui.form.on("Item Variant Attribute", {
         DescriptionProperty(frm);
     }
 });
-
-function set_color_code(frm) {
-    if (frm.doc.variant_of && frm.doc.attributes) {
-        frappe.call({
-            method: "masar_qadri.custom.item.item.get_color_code",
-            args: {
-                name: frm.doc.name
-            },
-            callback: function(r) {
-                if (r.message) {
-                    let colorRow = frm.doc.attributes.find(row => row.attribute === "Color");
-                    if (colorRow) {
-                        colorRow.custom_color_code = r.message;
-                        frm.refresh_field("attributes");
-                    }
-                }
-            }
-        });
-    }
-}

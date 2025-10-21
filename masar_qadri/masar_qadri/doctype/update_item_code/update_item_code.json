@@ -15,10 +15,11 @@
   }
  ],
  "grid_page_length": 50,
+ "in_create": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-08-13 13:13:42.540544",
+ "modified": "2025-10-20 12:33:00.052895",
  "modified_by": "Administrator",
  "module": "Masar Qadri",
  "name": "Update Item Code",
@@ -35,6 +36,7 @@
    "write": 1
   }
  ],
+ "read_only": 1,
  "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",

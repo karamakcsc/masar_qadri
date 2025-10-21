@@ -232,45 +232,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Selling System",
-   "link_count": 3,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Supplier",
-   "link_count": 0,
-   "link_to": "Customer",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "POS Invoice",
-   "link_count": 0,
-   "link_to": "POS Invoice",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales Invoice",
-   "link_count": 0,
-   "link_to": "Sales Invoice",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Accounting",
    "link_count": 4,
    "link_type": "DocType",
@@ -321,7 +282,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 9,
+   "link_count": 10,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -415,9 +376,48 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sales Person Daily Details",
+   "link_count": 0,
+   "link_to": "Sales Person Daily Details",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Selling System",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Supplier",
+   "link_count": 0,
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-09-29 10:56:06.561917",
+ "modified": "2025-10-21 16:40:01.597215",
  "modified_by": "Administrator",
  "module": "Masar Qadri",
  "name": "Qadri Office",

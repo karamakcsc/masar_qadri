@@ -16,7 +16,7 @@ def execute(filters=None):
 
 def get_columns():
 	return [
-		{"label": _("POS Invoice"), "fieldname": "name", "fieldtype": "Link", "options": "POS Invoice", "width": 200},
+		{"label": _("Sales Invoice"), "fieldname": "name", "fieldtype": "Link", "options": "Sales Invoice", "width": 200},
 		{"label": _("POS Profile"), "fieldname": "pos_profile", "fieldtype": "Link", "options": "POS Profile", "width": 250},
 		{"label": _("Customer"), "fieldname": "customer", "fieldtype": "Link", "options": "Customer", "width": 200},
 		{"label": _("Total Quantity"), "fieldname": "total_qty", "fieldtype": "Float", "width": 200},
@@ -32,8 +32,8 @@ def get_data(filters):
 		conditions += f" AND tpi.pos_profile = '{filters.get('pos_profile')}'"
 	if filters.get("customer"):
 		conditions += f" AND tpi.customer = '{filters.get('customer')}'"
-	if filters.get("pos_inv"):
-		conditions += f" AND tpi.name = '{filters.get('pos_inv')}'"
+	if filters.get("sales_invoice"):
+		conditions += f" AND tpi.name = '{filters.get('sales_invoice')}'"
 	_from, to = filters.get("from_date"), filters.get("to_date")
 	if _from and to:
 		conditions += f" AND tpi.posting_date BETWEEN '{_from}' AND '{to}'"
@@ -47,7 +47,7 @@ def get_data(filters):
 			tpi.total_qty AS total_qty,
 			tpi.grand_total AS grand_total,
 			tpi.posting_date
-		FROM `tabPOS Invoice` tpi
+		FROM `tabSales Invoice` tpi
 		WHERE tpi.docstatus = 1 AND {conditions}
 		ORDER BY tpi.posting_date DESC
 		"""

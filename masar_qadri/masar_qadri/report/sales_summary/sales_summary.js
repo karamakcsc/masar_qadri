@@ -4,10 +4,10 @@
 frappe.query_reports["Sales Summary"] = {
 	"filters": [
 		{
-			"fieldname": "pos_inv",
-			"label": __("POS Invoice"),
+			"fieldname": "sales_invoice",
+			"label": __("Sales Invoice"),
 			"fieldtype": "Link",
-			"options": "POS Invoice",
+			"options": "Sales Invoice",
 		},
 		{
 			"fieldname": "customer",

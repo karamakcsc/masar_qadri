@@ -306,13 +306,15 @@ class StockBalanceReport:
 			else:
 				query = query.where(item_table[field] == self.filters.get(field))
 
-		for attr in ["article", "season", "color"]:
+		# Handle variant attributes with unique aliases
+		for idx, attr in enumerate(["article", "season", "color"]):
 			if not self.filters.get(attr):
 				continue
 
 			attr_value = self.filters.get(attr)
 
-			item_variant_attr = frappe.qb.DocType("Item Variant Attribute")
+			# Create a unique alias for each join
+			item_variant_attr = frappe.qb.DocType("Item Variant Attribute").as_(f"iva_{idx}")
 
 			query = (
 				query.join(item_variant_attr)

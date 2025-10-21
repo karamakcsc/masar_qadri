@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "creation": "2025-10-20 11:25:29.046779",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "item",
+  "template_item",
+  "column_break_kjdl",
+  "item_name",
+  "fetch_attributes",
+  "section_break_fmun",
+  "current_attributes",
+  "section_break_uovd",
+  "update_attributes",
+  "section_break_eev2",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_eev2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Update Item Attribute",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Item",
+   "link_filters": "[[\"Item\",\"variant_of\",\"is\",\"set\"]]",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_kjdl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item.item_name",
+   "fetch_if_empty": 1,
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.item",
+   "fieldname": "fetch_attributes",
+   "fieldtype": "Button",
+   "label": "Fetch Attributes"
+  },
+  {
+   "fieldname": "section_break_fmun",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "current_attributes",
+   "fieldtype": "Table",
+   "label": "Current Attributes",
+   "no_copy": 1,
+   "options": "Update Item Attribute CI",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_uovd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "update_attributes",
+   "fieldtype": "Table",
+   "label": "Update Attributes",
+   "no_copy": 1,
+   "options": "Update Item Attribute UI"
+  },
+  {
+   "fetch_from": "item.variant_of",
+   "fetch_if_empty": 1,
+   "fieldname": "template_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Template Item",
+   "options": "Item",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-10-21 12:42:21.337736",
+ "modified_by": "Administrator",
+ "module": "Masar Qadri",
+ "name": "Update Item Attribute",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

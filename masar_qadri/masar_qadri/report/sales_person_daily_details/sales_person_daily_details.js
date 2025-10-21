@@ -1,15 +1,15 @@
 // Copyright (c) 2025, KCSC and contributors
 // For license information, please see license.txt
 
-frappe.query_reports["Sales Person Daily Summary"] = {
-    "filters": [
-        {
+frappe.query_reports["Sales Person Daily Details"] = {
+	"filters": [
+		{
 			fieldname: "pos_profile",
 			label: __("POS Profile"),
 			fieldtype: "Link",
 			options: "POS Profile",
-			reqd: 1,
 			width: "80",
+            reqd: 1,
 			get_query: function () {
 				return {
 					filters: {
@@ -64,30 +64,4 @@ frappe.query_reports["Sales Person Daily Summary"] = {
             default: 0,
         },
     ],
-
-    onload: function (report) {
-		frappe.call({
-			method: "masar_qadri.api.get_user_pos_profiles",
-			callback: function (r) {
-				if (!r || !r.message) {
-					frappe.msgprint(__("Unable to load POS profiles for this user."));
-					return;
-				}
-
-				const allowed_profiles = r.message;
-
-				report.get_filter('pos_profile').get_query = function() {
-					return {
-						filters: [['POS Profile', 'name', 'in', allowed_profiles]]
-					};
-				};
-
-				if (allowed_profiles.length === 1) {
-					report.set_filter_value('pos_profile', allowed_profiles[0]);
-					report.get_filter('pos_profile').df.read_only = 1;
-				}
-			}
-		});
-	},
 };
-

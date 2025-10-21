@@ -6,10 +6,17 @@ def before_submit(self, method):
 def populate_sales_team(self):
     if not self.items:
         return
-
+    
     sales_person_list = [item.custom_sales_person for item in self.items if item.custom_sales_person]
+    if not self.sales_team and not sales_person_list:
+        self.append("sales_team", {
+            "sales_person": "Sales Team",
+            "allocated_percentage": 100,
+            "allocated_amount": self.net_total,
+        })
 
     existing_sales_persons = [d.sales_person for d in self.sales_team]
+        
 
     for sp in set(sales_person_list):
         if sp not in existing_sales_persons:
