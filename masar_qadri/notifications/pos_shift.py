@@ -1,5 +1,5 @@
 import frappe
-from frappe.desk.doctype.notification_log.notification_log import make_notification_log
+from frappe.desk.doctype.notification_log.notification_log import make_notification_logs
 
 
 def pos_opening_shift_notification(doc, method=None):
@@ -31,7 +31,7 @@ def pos_opening_shift_notification(doc, method=None):
         frappe.log_error(f"No recipients found for POS Opening Shift {doc.name}", "POS Opening Shift Notification")
         return
 
-    make_notification_log(
+    make_notification_logs(
         subject=subject,
         for_users=recipients,
         type="Alert",
@@ -89,7 +89,7 @@ def pos_closing_shift_notification(doc, method=None):
         frappe.log_error(f"No recipients found for POS Closing Shift {doc.name}", "POS Closing Shift Notification")
         return
 
-    make_notification_log(
+    make_notification_logs(
         subject=subject,
         for_users=recipients,
         type="Alert",

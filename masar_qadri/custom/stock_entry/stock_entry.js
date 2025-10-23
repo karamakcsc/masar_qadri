@@ -19,6 +19,9 @@ frappe.ui.form.on("Stock Entry", {
     },
     onload: function(frm) {
         set_target_location(frm, true);
+    },
+    before_submit: function(frm) {
+        set_transfer_status(frm);
     }
 });
 
@@ -75,35 +78,47 @@ function set_default_warehouse_rec(frm) {
 }
 
 function set_transaction_type_ro(frm) {
-    if (frm.doc.docstatus == 0 && frm.doc.stock_entry_type == "Material Transfer" && frm.doc.from_warehouse == "MRK-MWH01 - QH") {
-        console.log("Setting custom_transaction_type to read-only and clearing its value");
+    if (frm.doc.docstatus == 0 && frm.doc.purpose == "Material Transfer" && frm.doc.from_warehouse == "MRK-MWH01 - QH") {
         frm.set_df_property("custom_transaction_type", "read_only", 1);
         frm.doc.custom_transaction_type = "";
         frm.refresh_field("custom_transaction_type");
     }
 }
 
-function set_default_from_warehouse(frm) {
-    console.log("set_default_from_warehouse called. doc:", frm.doc);
-    console.log("session user:", frappe.session && frappe.session.user);
-
+async function set_default_from_warehouse(frm) {
     if (frm.doc.docstatus !== 0) return;
 
-    if (frm.doc.stock_entry_type === "Material Transfer"
-        && !frm.doc.outgoing_stock_entry) {
+    if (frm.doc.purpose === "Material Transfer" && !frm.doc.outgoing_stock_entry) {
+        const current_user = frappe.session.user;
 
-        const targetUser = "bab_almadina@qadri.jo";
+        const warehouses = await frappe.db.get_list("Warehouse", {
+            filters: { custom_user: current_user },
+            fields: ["name"]
+        });
 
-        if (frappe.session && frappe.session.user === targetUser) {
-            frm.set_value("from_warehouse", "ZQ-QDR03 - QH");
+        if (warehouses && warehouses.length > 0) {
+            const default_wh = warehouses[0].name;
 
-            if (frm.doc.items && frm.doc.items.length) {
+            frm.set_value("from_warehouse", default_wh);
+
+            if (frm.doc.items && frm.doc.items.length > 0) {
                 frm.doc.items.forEach(row => {
-                    frappe.model.set_value(row.doctype, row.name, "s_warehouse", "ZQ-QDR03 - QH");
+                    frappe.model.set_value(row.doctype, row.name, "s_warehouse", default_wh);
                 });
             }
+
         } else {
-            console.log("User mismatch or session not available. expected:", targetUser, "got:", frappe.session && frappe.session.user);
+            console.log("No warehouse linked to user:", current_user);
         }
     }
+}
+
+function set_transfer_status(frm) {
+    if (frm.doc.add_to_transit && !frm.doc.outgoing_stock_entry) {
+        frappe.model.set_value(frm.doc.doctype, frm.doc.name, "custom_transfer_status", "Pending");
+    }
+    if (!frm.doc.add_to_transit && frm.doc.outgoing_stock_entry) {
+        frappe.model.set_value(frm.doc.doctype, frm.doc.name, "custom_transfer_status", "Complete");
+    }
+    frm.refresh_field("custom_transfer_status");
 }

@@ -35,16 +35,16 @@ frappe.query_reports["Stock Balance - Qadri"] = {
 			options: "Item Group",
 		},
 		{
-			fieldname: "item_code",
-			label: __("Item"),
-			fieldtype: "Link",
+			fieldname: "barcode",
+			label: __("Barcode"),
+			fieldtype: "Data",
 			width: "80",
-			options: "Item",
-			get_query: function () {
-				return {
-					query: "erpnext.controllers.queries.item_query",
-				};
-			},
+		},
+		{
+			fieldname: "item_name",
+			label: __("Item Name"),
+			fieldtype: "Data",
+			width: "80",
 		},
 		{
 			fieldname: "warehouse",
@@ -65,12 +65,6 @@ frappe.query_reports["Stock Balance - Qadri"] = {
 		{
 			fieldname: "article",
 			label: __("Article"),
-			fieldtype: "Data",
-			width: "80",
-		},
-		{
-			fieldname: "season",
-			label: __("Season"),
 			fieldtype: "Data",
 			width: "80",
 		},

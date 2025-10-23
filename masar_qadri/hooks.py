@@ -143,20 +143,21 @@ doc_events = {
 	},
     "Sales Invoice": {
         "before_submit": "masar_qadri.custom.sales_invoice.sales_invoice.before_submit",
-        "on_submit": "masar_qadri.notifications.sales_invoice.sales_invoice_notification"
+        # "on_submit": "masar_qadri.notifications.sales_invoice.sales_invoice_notification"
     },
     "Item Attribute": {
         "validate": "masar_qadri.custom.item_attribute.item_attribute.validate"
     },
     "Stock Entry": {
-        "on_submit": "masar_qadri.notifications.stock_entry.stock_entry_notification"
+        "on_submit": "masar_qadri.custom.stock_entry.stock_entry.on_submit",
+        "on_cancel": "masar_qadri.custom.stock_entry.stock_entry.on_cancel"
     },
-    "POS Opening Shift": {
-        "on_submit": "masar_qadri.notifications.pos_shift.pos_opening_shift_notification"
-    },
-    "POS Closing Shift": {
-        "on_submit": "masar_qadri.notifications.pos_shift.pos_closing_shift_notification"
-    },
+#     "POS Opening Shift": {
+#         "on_submit": "masar_qadri.notifications.pos_shift.pos_opening_shift_notification"
+#     },
+#     "POS Closing Shift": {
+#         "on_submit": "masar_qadri.notifications.pos_shift.pos_closing_shift_notification"
+#     },
 }
 
 doctype_js = {
@@ -196,7 +197,8 @@ doctype_js = {
 #
 override_whitelisted_methods = {
 	"erpnext.controllers.item_variant.enqueue_multiple_variant_creation": "masar_qadri.override.item.enqueue_multiple_variant_creation", 
-    "erpnext.controllers.item_variant.create_variant": "masar_qadri.override.item.create_variant"
+    "erpnext.controllers.item_variant.create_variant": "masar_qadri.override.item.create_variant",
+    "erpnext.stock.doctype.stock_entry.stock_entry.make_stock_in_entry": "masar_qadri.override.stock_entry.make_stock_in_entry"
 }
 #
 # each overriding function accepts a `data` argument;
@@ -281,7 +283,8 @@ fixtures = [
                 "POS Profile-custom_pos_supervisor",
                 "POS Profile-custom_section_break_peatv",
                 "Stock Entry-custom_target_location",
-                "Warehouse-custom_user"
+                "Warehouse-custom_user",
+                "Stock Entry-custom_transfer_status"
             ]
         ]
     ]},
@@ -302,7 +305,14 @@ fixtures = [
                 "Stock Entry-apply_putaway_rule-depends_on",
                 "Stock Entry-bom_info_section-hidden",
                 "Stock Entry-section_break_7qsm-hidden",
-                "Customer-mobile_no-unique"
+                "Customer-mobile_no-unique",
+                "Stock Entry-custom_transfer_status-in_list_view",
+                "Stock Entry-from_warehouse-in_list_view",
+                "Stock Entry-custom_target_location-in_list_view",
+                "Stock Entry-stock_entry_type-in_list_view",
+                "Stock Entry-is_return-in_list_view",
+                "Stock Entry-per_transferred-in_list_view",
+                "Stock Entry-purpose-in_list_view"
             ]
         ]
     ]}

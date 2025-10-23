@@ -33,7 +33,7 @@ def execute(filters=None):
 				d.posting_time,
 				d.item_code,
 				d.item_name,
-				item_details.get(d.item_code, {}).get("item_group"),
+				item_details.get(d.item_code, {}).get("item_name").split("-")[-2] if item_details.get(d.item_code, {}) else "",
 				item_details.get(d.item_code, {}).get("description_code"),
 				item_details.get(d.item_code, {}).get("season"),
 				item_details.get(d.item_code, {}).get("article"),
@@ -57,7 +57,7 @@ def get_columns(filters):
 		{"label": _("Posting Time"), "fieldname": "posting_time", "fieldtype": "Time", "width": 100},
 		{"label": _("Item Code"), "options": "Item", "fieldname": "item_code", "fieldtype": "Link", "width": 140,"hidden": 1},
 		{"label": _("Item Name"), "fieldname": "item_name", "fieldtype": "Data", "width": 220, "hidden": 1},
-		{"label": _("Item Group"), "options": "Item Group", "fieldname": "item_group", "fieldtype": "Link", "width": 140},
+		{"label": _("Supplier"), "fieldname": "supplier", "fieldtype": "Data", "width": 140},
 		{"label": _("Description Code"), "fieldname": "description_code", "fieldtype": "Data", "width": 140},
 		{"label": _("Season"), "fieldname": "season", "fieldtype": "Data", "width": 120},
 		{"label": _("Article"), "fieldname": "article", "fieldtype": "Data", "width": 120},
@@ -152,21 +152,6 @@ def get_items(filters):
 	item = qb.DocType("Item")
 	item_query_conditions = []
 
-	if filters.get("item_group"):
-		item_group = qb.DocType("Item Group")
-		lft, rgt = frappe.db.get_all(
-			"Item Group",
-			filters={"name": filters.get("item_group")},
-			fields=["lft", "rgt"],
-			as_list=True,
-		)[0]
-		item_group_query = (
-			qb.from_(item_group)
-			.select(item_group.name)
-			.where((item_group.lft >= lft) & (item_group.rgt <= rgt))
-		)
-		item_query_conditions.append(item.item_group.isin(item_group_query))
-
 	items = qb.from_(item).select(item.name).where(Criterion.all(item_query_conditions)).run()
 	return items
 
@@ -175,7 +160,7 @@ def get_item_details():
 	item_details = {}
 
 	for d in frappe.db.sql(
-		"""SELECT name, item_name, item_group, custom_description_code AS description_code 
+		"""SELECT name, item_name, custom_description_code AS description_code 
 		FROM `tabItem`""",
 		as_dict=1,
 	):

@@ -156,23 +156,23 @@ frappe.pages['item-details'].on_page_load = function(wrapper) {
                         </tr>
                     `;
                 });
-            } else {
-                html += `
-                    <tr>
-                        <td>${item.name || '-'}</td>
-                        <td>${item.item_name || '-'}</td>
-                        <td>${item.item_group || '-'}</td>
-                        <td>${item.brand || '-'}</td>
-                        <td>${item.article || '-'}</td>
-                        <td>${item.season || '-'}</td>
-                        <td>${item.color || '-'}</td>
-                        <td>${item.size || '-'}</td>
-                        <td>${item.style || '-'}</td>
-                        <td>-</td>
-                        <td>0</td>
-                    </tr>
-                `;
-            }
+            } //else {
+            //     html += `
+            //         <tr>
+            //             <td>${item.name || '-'}</td>
+            //             <td>${item.item_name || '-'}</td>
+            //             <td>${item.item_group || '-'}</td>
+            //             <td>${item.brand || '-'}</td>
+            //             <td>${item.article || '-'}</td>
+            //             <td>${item.season || '-'}</td>
+            //             <td>${item.color || '-'}</td>
+            //             <td>${item.size || '-'}</td>
+            //             <td>${item.style || '-'}</td>
+            //             <td>-</td>
+            //             <td>0</td>
+            //         </tr>
+            //     `;
+            // }
         });
 
         html += `</tbody></table>`;

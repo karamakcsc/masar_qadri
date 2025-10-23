@@ -298,22 +298,25 @@ class StockBalanceReport:
 			children = get_descendants_of("Item Group", item_group, ignore_permissions=True)
 			query = query.where(item_table.item_group.isin([*children, item_group]))
 
-		for field in ["item_code", "brand"]:
-			if not self.filters.get(field):
-				continue
-			elif field == "item_code":
-				query = query.where(item_table.name == self.filters.get(field))
-			else:
-				query = query.where(item_table[field] == self.filters.get(field))
+		item_name = self.filters.get("item_name")
+		barcode = self.filters.get("barcode")
 
-		# Handle variant attributes with unique aliases
-		for idx, attr in enumerate(["article", "season", "color"]):
+		if item_name:
+			query = query.where(item_table.item_name.like(f"%{item_name}%"))
+
+		if barcode:
+			item_barcode = frappe.qb.DocType("Item Barcode")
+			query = (
+				query.left_join(item_barcode)
+				.on(item_barcode.parent == item_table.name)
+				.where(item_barcode.barcode == barcode)
+			)
+
+		for idx, attr in enumerate(["article", "color"]):
 			if not self.filters.get(attr):
 				continue
 
 			attr_value = self.filters.get(attr)
-
-			# Create a unique alias for each join
 			item_variant_attr = frappe.qb.DocType("Item Variant Attribute").as_(f"iva_{idx}")
 
 			query = (
@@ -344,6 +347,7 @@ class StockBalanceReport:
 				"fieldtype": "Link",
 				"options": "Item",
 				"width": 150,
+				"hidden": 1,
 			},
 			{"label": _("Item Name"), "fieldname": "item_name", "width": 200},
 			{
@@ -494,7 +498,7 @@ def filter_items_with_no_transactions(
 
 def get_variants_attributes() -> list[str]:
 	"""Return all item variant attributes except excluded ones."""
-	excluded = ["Fabric", "Supplier", "Brand", "Description", "Category"]
+	excluded = ["Fabric", "Supplier", "Brand", "Description", "Category", "Season"]
 
 	return frappe.get_all(
 		"Item Attribute",

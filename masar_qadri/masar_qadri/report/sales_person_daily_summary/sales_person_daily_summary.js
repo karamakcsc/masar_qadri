@@ -46,12 +46,6 @@ frappe.query_reports["Sales Person Daily Summary"] = {
 			hidden: 1,
         },
         {
-            fieldname: "item_group",
-            label: __("Item Group"),
-            fieldtype: "Link",
-            options: "Item Group",
-        },
-        {
             fieldname: "customer",
             label: __("Customer"),
             fieldtype: "Link",
