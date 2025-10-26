@@ -27,7 +27,7 @@ def get_columns():
 		{"label": _("Net Expected"), "fieldname": "net_expected", "fieldtype": "Currency", "width": 120},
 		{"label": _("Tax Amount"), "fieldname": "tax_amount", "fieldtype": "Currency", "width": 120},
 		{"label": _("Expected Amount"), "fieldname": "expected_amount", "fieldtype": "Currency", "width": 120},
-		{"label": _("Difference"), "fieldname": "difference", "fieldtype": "Currency", "width": 120},
+		{"label": _("Difference"), "fieldname": "difference", "fieldtype": "Data", "width": 120},
 		# {"label": _("Total Refunds"), "fieldname": "total_refunds", "fieldtype": "Currency", "width": 120},
 		# {"label": _("Total Discounts"), "fieldname": "total_discounts", "fieldtype": "Currency", "width": 120},
 	]
@@ -63,6 +63,7 @@ def get_data(filters):
 	for d in data:
 		d["net_expected"] = flt(d["expected_amount"]) / 1.16
 		d["tax_amount"] = flt(d["expected_amount"]) - d["net_expected"]
+		d["difference"] = str(d["difference"])
 
 		# d["total_refunds"] = get_total_refunds(d.get("shift_name"))
 		# d["total_discounts"] = get_total_discounts(d.get("shift_name"))

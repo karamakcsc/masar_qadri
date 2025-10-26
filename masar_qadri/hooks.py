@@ -120,10 +120,16 @@ app_license = "mit"
 # permission_query_conditions = {
 # 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
+permission_query_conditions = {
+    "Stock Entry": "masar_qadri.custom.permissions.get_permission_query_conditions"
+}
 #
 # has_permission = {
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",
 # }
+has_permission = {
+    "Stock Entry": "masar_qadri.custom.permissions.has_permission"
+}
 
 # DocType Class
 # ---------------

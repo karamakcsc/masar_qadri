@@ -1,5 +1,6 @@
 import frappe
-from frappe.desk.doctype.notification_log.notification_log import make_notification_log
+
+# from frappe.desk.doctype.notification_log.notification_log import make_notification_log
 
 
 def on_submit(self, method):
@@ -66,3 +67,4 @@ def set_se_transfer_status(self, status):
 #         subject=subject,
 #         message=message,
 #     )
+
