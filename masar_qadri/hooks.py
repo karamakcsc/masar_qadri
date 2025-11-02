@@ -311,14 +311,20 @@ fixtures = [
                 "Stock Entry-apply_putaway_rule-depends_on",
                 "Stock Entry-bom_info_section-hidden",
                 "Stock Entry-section_break_7qsm-hidden",
-                "Customer-mobile_no-unique",
+                # "Customer-mobile_no-unique",
                 "Stock Entry-custom_transfer_status-in_list_view",
                 "Stock Entry-from_warehouse-in_list_view",
                 "Stock Entry-custom_target_location-in_list_view",
                 "Stock Entry-stock_entry_type-in_list_view",
                 "Stock Entry-is_return-in_list_view",
                 "Stock Entry-per_transferred-in_list_view",
-                "Stock Entry-purpose-in_list_view"
+                "Stock Entry-purpose-in_list_view",
+                "Stock Entry Detail-amount-permlevel",
+                "Stock Entry Detail-basic_amount-permlevel",
+                "Stock Entry Detail-set_basic_rate_manually-permlevel",
+                "Stock Entry Detail-allow_zero_valuation_rate-permlevel",
+                "Stock Entry Detail-valuation_rate-permlevel",
+                "Stock Entry Detail-additional_cost-permlevel"
             ]
         ]
     ]}

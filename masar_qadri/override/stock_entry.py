@@ -6,6 +6,7 @@ from frappe.utils import flt
 def make_stock_in_entry(source_name, target_doc=None):
 	def set_missing_values(source, target):
 		target.stock_entry_type = "Check In"
+		target.custom_transaction_type = "Normal Return"
 		target.set_missing_values()
 
 		if not frappe.db.get_single_value("Stock Settings", "use_serial_batch_fields"):
@@ -48,6 +49,7 @@ def make_stock_in_entry(source_name, target_doc=None):
 		},
 		target_doc,
 		set_missing_values,
+		ignore_permissions=True
 	)
 
 	return doclist

@@ -55,7 +55,7 @@ frappe.query_reports["Sales Person Daily Summary"] = {
             fieldname: "show_return_entries",
             label: __("Show Return Entries"),
             fieldtype: "Check",
-            default: 0,
+            default: 1,
         },
     ],
 

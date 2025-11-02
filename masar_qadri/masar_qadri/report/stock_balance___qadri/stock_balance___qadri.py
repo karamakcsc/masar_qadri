@@ -82,6 +82,7 @@ class StockBalanceReport:
 				self.opening_data.setdefault(group_by_key, entry)
 
 	def prepare_new_data(self):
+		self.item_barcodes = self.get_item_barcodes()
 		self.item_warehouse_map = self.get_item_warehouse_map()
 
 		if self.filters.get("show_stock_ageing_data"):
@@ -192,7 +193,8 @@ class StockBalanceReport:
 
 	def initialize_data(self, item_warehouse_map, group_by_key, entry):
 		opening_data = self.opening_data.get(group_by_key, {})
-
+		barcode = str(self.item_barcodes.get(entry.item_code) or "")
+  
 		item_warehouse_map[group_by_key] = frappe._dict(
 			{
 				"item_code": entry.item_code,
@@ -203,6 +205,7 @@ class StockBalanceReport:
 				"item_name": entry.item_name,
 				"opening_fifo_queue": opening_data.get("fifo_queue") or [],
 				"bal_qty": opening_data.get("bal_qty") or 0.0,
+				"barcode": barcode,
 			}
 		)
 
@@ -350,6 +353,7 @@ class StockBalanceReport:
 				"hidden": 1,
 			},
 			{"label": _("Item Name"), "fieldname": "item_name", "width": 200},
+			{"label": _("Barcode"), "fieldname": "barcode", "fieldtype": "Data", "width": 130},
 			{
 				"label": _("Item Group"),
 				"fieldname": "item_group",
@@ -453,6 +457,22 @@ class StockBalanceReport:
 				opening_vouchers[d.voucher_type].append(d.name)
 
 		return opening_vouchers
+
+	def get_item_barcodes(self):
+		barcodes = {}
+		barcode_sql = frappe.db.sql(
+			"""
+			SELECT parent AS item_code, barcode
+			FROM `tabItem Barcode`
+			WHERE barcode IS NOT NULL
+			GROUP BY parent
+			ORDER BY MIN(creation)
+			""",
+			as_dict=True,
+		)
+		for barcode in barcode_sql:
+			barcodes[barcode.item_code] = barcode.barcode
+		return barcodes
 
 	@staticmethod
 	def get_opening_fifo_queue(report_data):

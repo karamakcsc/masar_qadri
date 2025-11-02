@@ -114,10 +114,10 @@ async function set_default_from_warehouse(frm) {
 }
 
 function set_transfer_status(frm) {
-    if (frm.doc.add_to_transit && !frm.doc.outgoing_stock_entry) {
+    if (frm.doc.add_to_transit && !frm.doc.outgoing_stock_entry && frm.doc.purpose == "Material Transfer") {
         frappe.model.set_value(frm.doc.doctype, frm.doc.name, "custom_transfer_status", "Pending");
     }
-    if (!frm.doc.add_to_transit && frm.doc.outgoing_stock_entry) {
+    if (!frm.doc.add_to_transit && frm.doc.outgoing_stock_entry && frm.doc.purpose == "Material Transfer") {
         frappe.model.set_value(frm.doc.doctype, frm.doc.name, "custom_transfer_status", "Complete");
     }
     frm.refresh_field("custom_transfer_status");
