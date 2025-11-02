@@ -311,7 +311,7 @@ fixtures = [
                 "Stock Entry-apply_putaway_rule-depends_on",
                 "Stock Entry-bom_info_section-hidden",
                 "Stock Entry-section_break_7qsm-hidden",
-                # "Customer-mobile_no-unique",
+                "Customer-mobile_no-unique",
                 "Stock Entry-custom_transfer_status-in_list_view",
                 "Stock Entry-from_warehouse-in_list_view",
                 "Stock Entry-custom_target_location-in_list_view",
