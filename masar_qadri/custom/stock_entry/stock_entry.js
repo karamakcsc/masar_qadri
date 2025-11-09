@@ -92,7 +92,7 @@ async function set_default_from_warehouse(frm) {
         const current_user = frappe.session.user;
 
         const warehouses = await frappe.db.get_list("Warehouse", {
-            filters: { custom_user: current_user },
+            filters: { custom_user: current_user, disabled: 0 },
             fields: ["name"]
         });
 

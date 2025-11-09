@@ -93,15 +93,15 @@ def get_barcode(data, barcode_type):
 
 	buffer = BytesIO()
 	bar.write(buffer, {
-		"module_width": 0.75,
-		"module_height": 18,
-		"quiet_zone": 1.0,
+		"module_width": 0.4,
+		"module_height": 16,
+		"quiet_zone": 1.5,
 		"font_size": 0,
 		"text_distance": 0,
 		"background": "white",
 		"foreground": "black",
 		"write_text": False,
-		"dpi": 300,
+		"dpi": 900,
 	})
 	
 	base64_string = base64.b64encode(buffer.getvalue()).decode("utf-8")

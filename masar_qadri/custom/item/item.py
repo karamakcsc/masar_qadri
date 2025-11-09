@@ -80,6 +80,9 @@ def generate_barcode(self):
     if len(self.barcodes) != 0:
         return
     
+    if self.has_variants:
+        return
+    
     current_year = datetime.now().year
     existing_barcodes_sql = frappe.db.sql("""
             SELECT MAX(tib.barcode) AS `barcode`
