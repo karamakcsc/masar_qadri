@@ -15,8 +15,6 @@ class ItemLabelPrint(Document):
 		
 	@frappe.whitelist()
 	def fetch_items(self):
-		self.items = []
-
 		filters = {"disabled": 0, "has_variants": 0}
 
 		if self.item_code:
