@@ -27,16 +27,23 @@ frappe.ui.form.on("Stock Entry", {
 
 
 function set_values_based_on_target_location(frm) {
-    if (frm.doc.custom_target_location && !frm.doc.outgoing_stock_entry) {
+    if (frm.doc.custom_target_location && !frm.doc.outgoing_stock_entry && frm.doc.purpose == "Material Transfer") {
         frm.doc.add_to_transit = 1;
         frm.set_df_property("add_to_transit", "read_only", 1);
         frm.refresh_field("add_to_transit");
-
-        frm.doc.to_warehouse = "Transit - QH";
+        
+        frappe.db.get_value("Warehouse", frm.doc.from_warehouse, "default_in_transit_warehouse", (r) => {
+            if (r.default_in_transit_warehouse) {
+                frm.set_value("to_warehouse", r.default_in_transit_warehouse);
+            } else {
+                frm.set_value("to_warehouse", frm.doc.custom_target_location);
+            }
+        });
+		
         frm.refresh_field("to_warehouse");
 
         frm.doc.items.forEach(item => {
-            item.t_warehouse = "Transit - QH";
+            item.t_warehouse = frm.doc.to_warehouse;
         });
         frm.refresh_field("items");
     }
