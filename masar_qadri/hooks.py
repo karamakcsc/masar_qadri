@@ -164,6 +164,15 @@ doc_events = {
 #     "POS Closing Shift": {
 #         "on_submit": "masar_qadri.notifications.pos_shift.pos_closing_shift_notification"
 #     },
+    "Purchase Order": {
+        "validate": "masar_qadri.custom.purchase_order.purchase_order.validate"
+    },
+    "Purchase Receipt": {
+        "validate": "masar_qadri.custom.purchase_receipt.purchase_receipt.validate"
+    },
+    "Purchase Invoice": {
+        "validate": "masar_qadri.custom.purchase_invoice.purchase_invoice.validate"
+    }
 }
 
 doctype_js = {

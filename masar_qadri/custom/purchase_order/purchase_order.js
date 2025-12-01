@@ -8,14 +8,5 @@ frappe.ui.form.on("Purchase Order", {
             });
             frm.refresh_field("items");
         }
-        // if (!frappe.user.has_role("Purchase Manager")) {
-        //     console.log("Hiding rate column for non-Purchase Manager users");
-        //     const grid = frm.get_field('items').grid; 
-
-        //     grid.update_docfield_property('rate', 'in_list_view', 0);
-
-        //     grid.refresh();
-        // }
-
-    }
+    },
 });

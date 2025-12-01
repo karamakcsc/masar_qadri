@@ -32,7 +32,7 @@ function set_values_based_on_target_location(frm) {
         frm.set_df_property("add_to_transit", "read_only", 1);
         frm.refresh_field("add_to_transit");
         
-        frappe.db.get_value("Warehouse", frm.doc.from_warehouse, "default_in_transit_warehouse", (r) => {
+        frappe.db.get_value("Warehouse", frm.doc.custom_target_location, "default_in_transit_warehouse", (r) => {
             if (r.default_in_transit_warehouse) {
                 frm.set_value("to_warehouse", r.default_in_transit_warehouse);
             } else {
