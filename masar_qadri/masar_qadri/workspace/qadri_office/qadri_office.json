@@ -311,7 +311,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 12,
+   "link_count": 13,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -418,28 +418,36 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
-   "label": "Item Details Per Supplier",
-   "link_count": 0,
-   "link_to": "Item Details Per Supplier",
-   "link_type": "Report",
-   "onboard": 0,
-   "report_ref_doctype": "Item",
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Item Details Per Branch",
    "link_count": 0,
    "link_to": "Item Details Per Branch",
    "link_type": "Report",
    "onboard": 0,
-   "report_ref_doctype": "Item",
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Item Details Per Supplier",
+   "link_count": 0,
+   "link_to": "Item Details Per Supplier",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Return Invoice Details",
+   "link_count": 0,
+   "link_to": "Return Invoice Details",
+   "link_type": "Report",
+   "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2025-12-02 13:23:04.816446",
+ "modified": "2025-12-03 14:10:17.599494",
  "modified_by": "Administrator",
  "module": "Masar Qadri",
  "name": "Qadri Office",

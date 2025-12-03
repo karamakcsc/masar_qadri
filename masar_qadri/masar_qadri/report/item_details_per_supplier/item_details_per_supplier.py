@@ -39,9 +39,9 @@ def data(filters):
 			AND siz.attribute = 'Size'
 			INNER JOIN `tabItem Price` tip ON tb.item_code = tip.item_code 
 			WHERE 
-				tip.selling = 1 
+				{conditions}
+				AND tip.selling = 1 
 				AND ti.has_variants = 0
-				AND {conditions}
 			GROUP BY tb.item_code
 		""", as_dict=1)
 
