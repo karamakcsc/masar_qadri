@@ -165,7 +165,8 @@ doc_events = {
 #         "on_submit": "masar_qadri.notifications.pos_shift.pos_closing_shift_notification"
 #     },
     "Purchase Order": {
-        "validate": "masar_qadri.custom.purchase_order.purchase_order.validate"
+        "validate": "masar_qadri.custom.purchase_order.purchase_order.validate",
+        "on_submit": "masar_qadri.custom.purchase_order.purchase_order.on_submit"
     },
     "Purchase Receipt": {
         "validate": "masar_qadri.custom.purchase_receipt.purchase_receipt.validate"
@@ -333,7 +334,43 @@ fixtures = [
                 "Stock Entry Detail-set_basic_rate_manually-permlevel",
                 "Stock Entry Detail-allow_zero_valuation_rate-permlevel",
                 "Stock Entry Detail-valuation_rate-permlevel",
-                "Stock Entry Detail-additional_cost-permlevel"
+                "Stock Entry Detail-additional_cost-permlevel",
+                "Purchase Order Item-cost_center-permlevel",
+                "Purchase Order Item-branch-permlevel",
+                "Purchase Order Item-project-permlevel",
+                "Purchase Order Item-internal_supplier-permlevel",
+                "Purchase Receipt Item-rate-permlevel",
+                "Purchase Receipt Item-amount-permlevel",
+                "Purchase Receipt Item-base_rate-permlevel",
+                "Purchase Receipt Item-base_amount-permlevel",
+                "Purchase Receipt Item-stock_uom_rate-permlevel",
+                "Purchase Receipt Item-net_rate-permlevel",
+                "Purchase Receipt Item-net_amount-permlevel",
+                "Purchase Receipt Item-base_net_rate-permlevel",
+                "Purchase Receipt Item-base_net_amount-permlevel",
+                "Purchase Receipt Item-landed_cost_voucher_amount-permlevel",
+                "Purchase Receipt Item-amount_difference_with_purchase_invoice-permlevel",
+                "Purchase Receipt Item-billed_amt-permlevel",
+                "Purchase Receipt Item-internal_supplier-permlevel",
+                "Purchase Receipt Item-project-permlevel",
+                "Purchase Receipt Item-branch-permlevel",
+                "Purchase Receipt Item-cost_center-permlevel",
+                "Purchase Invoice Item-price_list_rate-permlevel",
+                "Purchase Invoice Item-base_price_list_rate-permlevel",
+                "Purchase Invoice Item-rate-permlevel",
+                "Purchase Invoice Item-amount-permlevel",
+                "Purchase Invoice Item-base_rate-permlevel",
+                "Purchase Invoice Item-base_amount-permlevel",
+                "Purchase Invoice Item-stock_uom_rate-permlevel",
+                "Purchase Invoice Item-net_rate-permlevel",
+                "Purchase Invoice Item-net_amount-permlevel",
+                "Purchase Invoice Item-base_net_rate-permlevel",
+                "Purchase Invoice Item-base_net_amount-permlevel",
+                "Purchase Invoice Item-landed_cost_voucher_amount-permlevel",
+                "Purchase Invoice Item-internal_supplier-permlevel",
+                "Purchase Invoice Item-project-permlevel",
+                "Purchase Invoice Item-branch-permlevel",
+                "Purchase Invoice Item-cost_center-permlevel"
             ]
         ]
     ]}
