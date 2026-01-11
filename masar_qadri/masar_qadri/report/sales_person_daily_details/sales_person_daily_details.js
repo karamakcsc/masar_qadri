@@ -9,7 +9,7 @@ frappe.query_reports["Sales Person Daily Details"] = {
 			fieldtype: "Link",
 			options: "POS Profile",
 			width: "80",
-            reqd: 1,
+            reqd: 0,
 			get_query: function () {
 				return {
 					filters: {
@@ -61,7 +61,7 @@ frappe.query_reports["Sales Person Daily Details"] = {
             fieldname: "show_return_entries",
             label: __("Show Return Entries"),
             fieldtype: "Check",
-            default: 0,
+            default: 1,
         },
     ],
 };
