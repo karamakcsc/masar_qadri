@@ -100,6 +100,5 @@ def notify_stock_entry_transfer(doc):
         recipients=all_recipients,
         subject=subject,
         message=message,
-        notify=True
     )
 
