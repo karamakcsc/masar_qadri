@@ -370,9 +370,7 @@ fixtures = [
                 "Purchase Invoice Item-internal_supplier-permlevel",
                 "Purchase Invoice Item-project-permlevel",
                 "Purchase Invoice Item-branch-permlevel",
-                "Purchase Invoice Item-cost_center-permlevel",
-                "Stock Entry-from_warehouse-permlevel",
-                "Stock Entry-to_warehouse-permlevel"
+                "Purchase Invoice Item-cost_center-permlevel"
             ]
         ]
     ]}
