@@ -83,7 +83,7 @@ def notify_stock_entry_transfer(doc):
 
     role_recipients = frappe.db.get_all(
         "Has Role",
-        filters={"role": ["in", ["Stock Manager"]], "parenttype": "User", "parent": ["!=", "Administrator"]},
+        filters={"role": ["in", ["Stock Manager"]], "parenttype": "User", "parent": ["!=", "Administrator", "saber1@example.com", "m_mak@outlook.sa", "saber2@example.com"]},
         pluck="parent"
     )
 
