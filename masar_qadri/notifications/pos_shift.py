@@ -1,5 +1,4 @@
 import frappe
-from frappe.desk.doctype.notification_log.notification_log import make_notification_logs
 
 
 def pos_opening_shift_notification(doc, method=None):
@@ -31,14 +30,6 @@ def pos_opening_shift_notification(doc, method=None):
         frappe.log_error(f"No recipients found for POS Opening Shift {doc.name}", "POS Opening Shift Notification")
         return
 
-    make_notification_logs(
-        subject=subject,
-        for_users=recipients,
-        type="Alert",
-        document_type="POS Opening Shift",
-        document_name=doc.name,
-    )
-
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -55,8 +46,8 @@ def pos_closing_shift_notification(doc, method=None):
     total_invoices = len(doc.pos_transactions or [])
     total_amount = doc.grand_total or 0.0
     total_qty = doc.total_quantity or 0.0
-    taxes = sum([t.get("amount", 0) for t in (doc.taxes or [])])
-    difference = sum([d.get("difference", 0) for d in (doc.payment_reconciliation or [])])
+    taxes = sum((t.amount or 0) for t in (doc.taxes or []))
+    difference = sum(d.difference or 0 for d in (doc.payment_reconciliation or []))
 
     payments = ""
     if getattr(doc, "payment_reconciliation", None):
@@ -89,14 +80,6 @@ def pos_closing_shift_notification(doc, method=None):
         frappe.log_error(f"No recipients found for POS Closing Shift {doc.name}", "POS Closing Shift Notification")
         return
 
-    make_notification_logs(
-        subject=subject,
-        for_users=recipients,
-        type="Alert",
-        document_type="POS Closing Shift",
-        document_name=doc.name,
-    )
-
     frappe.sendmail(
         recipients=recipients,
         subject=subject,
@@ -105,13 +88,29 @@ def pos_closing_shift_notification(doc, method=None):
 
 
 def _get_pos_shift_recipients():
-    recipients = []
+    roles = ["Sales Master Manager"]
 
-    role_recipients = frappe.db.get_all(
+    role_holders = frappe.db.get_all(
         "Has Role",
-        filters={"role": ["in", ["Sales Master Manager", "Accounts Manager"]]},
+        filters={
+            "role": ["in", roles],
+            "parenttype": "User",
+            "parent": ["!=", "Administrator"]
+        },
         pluck="parent"
     )
-    recipients += role_recipients
 
-    return list(set(recipients))
+    if not role_holders:
+        return []
+
+    return list(set(
+        frappe.db.get_all(
+            "User",
+            filters={
+                "name": ["in", role_holders],
+                "enabled": 1,
+                "name": ["!=", "Administrator"]
+            },
+            pluck="name"
+        )
+    ))

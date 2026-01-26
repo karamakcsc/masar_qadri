@@ -36,12 +36,13 @@ def validate_original_se(self):
         )
         
     original_se = frappe.get_doc("Stock Entry", self.outgoing_stock_entry)
-    original_items = {i.item_code: i.qty for i in original_se.items}
-
-    if len(self.items) != len(original_items):
+    
+    if len(self.items) != len(original_se.items):
         frappe.throw(
             "Items count must exactly match the original Stock Entry."
         )
+
+    original_items = {i.item_code: i.qty for i in original_se.items}
 
     for item in self.items:
         if item.item_code not in original_items:
@@ -75,19 +76,24 @@ def notify_stock_entry_transfer(doc):
     <b>Transferred By:</b> {doc.owner or 'System'}<br>
     """
 
-    recipients = frappe.db.get_all(
-        "Warehouse",
-        filters={"name": doc.to_warehouse},
-        pluck="custom_user"
-    )
+    branch_emails = {
+        "Abdali Mall - QH": "abdali@qadri.jo",
+        "MM-QDR01 - QH": "mecca@qadri.jo",
+        "JH-QDR01 - QH": "hussein@qadri.jo",
+        "IR-QDR02 - QH": "irbid-city@qadri.jo",
+        "Arabilla-QDR01 - QH": "irbid@qadri.jo",
+        "ZQ-QDR03 - QH": "zarqa.bm@qadri.jo",
+        "ZQ-QDR02 - QH": "zarqa2@qadri.jo",
+        "ZQ-QDR01 - QH": "zarqa@qadri.jo"
+    }
 
-    role_recipients = frappe.db.get_all(
-        "Has Role",
-        filters={"role": ["in", ["Stock Manager"]], "parenttype": "User", "parent": ["!=", "Administrator", "saber1@example.com", "m_mak@outlook.sa", "saber2@example.com"]},
-        pluck="parent"
-    )
+    role_recipients = ["warehous@qadri.jo", "logistics@qadri.jo"]
 
-    all_recipients = list(set((recipients or []) + (role_recipients or [])))
+    branch_email = branch_emails.get(doc.to_warehouse, None)
+
+    all_recipients = list(
+        set(role_recipients + ([branch_email] if branch_email else []))
+    )
 
     if not all_recipients:
         frappe.log_error(

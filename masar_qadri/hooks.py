@@ -149,7 +149,7 @@ doc_events = {
 	},
     "Sales Invoice": {
         "before_submit": "masar_qadri.custom.sales_invoice.sales_invoice.before_submit",
-        # "on_submit": "masar_qadri.notifications.sales_invoice.sales_invoice_notification"
+        "on_submit": "masar_qadri.notifications.sales_invoice.sales_invoice_notification"
     },
     "Item Attribute": {
         "validate": "masar_qadri.custom.item_attribute.item_attribute.validate"
@@ -158,12 +158,12 @@ doc_events = {
         "on_submit": "masar_qadri.custom.stock_entry.stock_entry.on_submit",
         "on_cancel": "masar_qadri.custom.stock_entry.stock_entry.on_cancel"
     },
-#     "POS Opening Shift": {
-#         "on_submit": "masar_qadri.notifications.pos_shift.pos_opening_shift_notification"
-#     },
-#     "POS Closing Shift": {
-#         "on_submit": "masar_qadri.notifications.pos_shift.pos_closing_shift_notification"
-#     },
+    "POS Opening Shift": {
+        "on_submit": "masar_qadri.notifications.pos_shift.pos_opening_shift_notification"
+    },
+    "POS Closing Shift": {
+        "on_submit": "masar_qadri.notifications.pos_shift.pos_closing_shift_notification"
+    },
     "Purchase Order": {
         "validate": "masar_qadri.custom.purchase_order.purchase_order.validate",
         "on_submit": "masar_qadri.custom.purchase_order.purchase_order.on_submit"

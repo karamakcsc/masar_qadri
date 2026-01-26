@@ -1,5 +1,4 @@
 import frappe
-from frappe.desk.doctype.notification_log.notification_log import make_notification_log
 
 def sales_invoice_notification(doc, method=None):
     notify_sales_return_submission(doc)
@@ -18,30 +17,24 @@ def notify_sales_return_submission(doc):
         <b>Branch:</b> {doc.pos_profile or 'N/A'}<br>
         """
 
-        roles = ["Sales Master Manager"]
-        role_holders = frappe.db.get_all(
-            "Has Role",
-            filters={"role": ["in", roles]},
-            pluck="parent"
-        )
+        # roles = ["Sales Master Manager"]
+        # role_holders = frappe.db.get_all(
+        #     "Has Role",
+        #     filters={"role": ["in", roles], "parenttype": "User", "parent": ["!=", "Administrator"]},
+        #     pluck="parent"
+        # )
 
-        emails = frappe.db.get_all(
-            "User",
-            filters={"name": ["in", role_holders], "enabled": 1},
-            pluck="name"
-        )
+        # emails = frappe.db.get_all(
+        #     "User",
+        #     filters={"name": ["in", role_holders], "enabled": 1, "name": ["!=", "Administrator"]},
+        #     pluck="name"
+        # )
+        
+        emails = ["admin.manager@qadri.jo"]
 
         if not emails:
             frappe.log_error("No recipients found for Sales Return notification", "Sales Return Notification")
             return
-
-        make_notification_log(
-            subject=subject,
-            for_users=emails,
-            type="Alert",
-            document_type="Sales Invoice",
-            document_name=doc.name,
-        )
 
         frappe.sendmail(
             recipients=emails,
@@ -76,30 +69,24 @@ def notify_sales_invoice_with_discount(doc):
         <b>Branch:</b> {doc.pos_profile or 'N/A'}<br>
         """
 
-        roles = ["Sales Master Manager"]
-        role_holders = frappe.db.get_all(
-            "Has Role",
-            filters={"role": ["in", roles]},
-            pluck="parent"
-        )
+        # roles = ["Sales Master Manager"]
+        # role_holders = frappe.db.get_all(
+        #     "Has Role",
+        #     filters={"role": ["in", roles], "parenttype": "User", "parent": ["!=", "Administrator"]},
+        #     pluck="parent"
+        # )
 
-        emails = frappe.db.get_all(
-            "User",
-            filters={"name": ["in", role_holders], "enabled": 1},
-            pluck="name"
-        )
+        # emails = frappe.db.get_all(
+        #     "User",
+        #     filters={"name": ["in", role_holders], "enabled": 1, "name": ["!=", "Administrator"]},
+        #     pluck="name"
+        # )
+        
+        emails = ["admin.manager@qadri.jo"]
 
         if not emails:
             frappe.log_error("No recipients found for Discounted Sales Invoice notification", "Sales Invoice Discount Notification")
             return
-
-        make_notification_log(
-            subject=subject,
-            for_users=emails,
-            type="Alert",
-            document_type="Sales Invoice",
-            document_name=doc.name,
-        )
 
         frappe.sendmail(
             recipients=emails,
