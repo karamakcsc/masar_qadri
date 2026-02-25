@@ -311,7 +311,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 13,
+   "link_count": 15,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -445,9 +445,29 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Inventory and Fast Movers",
+   "link_count": 0,
+   "link_to": "Inventory and Fast Movers",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Sales vs Shifts Report",
+   "link_count": 0,
+   "link_to": "Sales vs Shifts Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-12-03 14:10:17.599494",
+ "modified": "2026-02-23 14:50:01.419523",
  "modified_by": "Administrator",
  "module": "Masar Qadri",
  "name": "Qadri Office",

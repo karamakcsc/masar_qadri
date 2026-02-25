@@ -97,7 +97,11 @@ def get_entries(filters):
 			tsii.stock_qty,
 			tsii.amount,
 			(
-				SELECT GROUP_CONCAT(DISTINCT tsip.mode_of_payment ORDER BY tsip.idx SEPARATOR ', ')
+				SELECT GROUP_CONCAT(
+					CONCAT(tsip.mode_of_payment, ' (', FORMAT(tsip.amount, 2), ')')
+					ORDER BY tsip.idx
+					SEPARATOR ', '
+				)
 				FROM `tabSales Invoice Payment` tsip
 				WHERE tsip.parent = tsi.name AND tsip.amount > 0
 			) AS mode_of_payment

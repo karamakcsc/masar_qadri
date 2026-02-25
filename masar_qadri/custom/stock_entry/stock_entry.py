@@ -36,28 +36,35 @@ def validate_original_se(self):
         )
         
     original_se = frappe.get_doc("Stock Entry", self.outgoing_stock_entry)
-    
-    if len(self.items) != len(original_se.items):
+
+    original_items = {}
+    for row in original_se.items:
+        original_items[row.item_code] = original_items.get(row.item_code, 0) + (row.qty or 0)
+
+    current_items = {}
+    for row in self.items:
+        current_items[row.item_code] = current_items.get(row.item_code, 0) + (row.qty or 0)
+
+    if len(original_items) != len(current_items):
         frappe.throw(
-            "Items count must exactly match the original Stock Entry."
+            "Items count must match the original Stock Entry (grouped by Item Code)."
         )
 
-    original_items = {i.item_code: i.qty for i in original_se.items}
+    for item_code, original_qty in original_items.items():
 
-    for item in self.items:
-        if item.item_code not in original_items:
+        if item_code not in current_items:
             frappe.throw(
-                f"Item <b>{item.item_code}</b> in <b> row {item.idx} </b> does not exist in the original Stock Entry."
+                f"Item <b>{item_code}</b> does not exist in the submitted Stock Entry."
             )
 
-        original_qty = original_items[item.item_code]
+        entered_qty = current_items[item_code]
 
-        if item.qty != original_qty:
+        if entered_qty != original_qty:
             frappe.throw(
-                f"Quantity mismatch for item <b>{item.item_code}</b> in row <b>{item.idx}</b>.<br>"
-                f"Original Qty: <b>{original_qty}</b><br>"
-                f"Entered Qty: <b>{item.qty}</b><br><br>"
-                f"<b>Quantity must match the original Stock Entry exactly.</b>"
+                f"Quantity mismatch for item <b>{item_code}</b>.<br>"
+                f"Original Total Qty: <b>{original_qty}</b><br>"
+                f"Entered Total Qty: <b>{entered_qty}</b><br><br>"
+                f"<b>Total quantity per item must match exactly.</b>"
             )
 
 def notify_stock_entry_transfer(doc):

@@ -65,7 +65,7 @@ def get_columns(filters):
 		{"label": _("Article"), "fieldname": "article", "fieldtype": "Data", "width": 120},
 		{"label": _("Invoice Total Qty"), "fieldname": "qty", "fieldtype": "Float", "width": 120},
 		{"label": _("Amount"), "options": "currency", "fieldname": "amount", "fieldtype": "Currency", "width": 140},
-		{"label": _("Mode of Payment"), "fieldname": "mode_of_payment", "fieldtype": "Data", "width": 200},
+		{"label": _("Mode of Payment"), "fieldname": "mode_of_payment", "fieldtype": "Data", "width": 350},
 		{"label": _("Currency"), "options": "Currency", "fieldname": "currency", "fieldtype": "Link", "hidden": 1},
 	]
 
@@ -101,7 +101,11 @@ def get_entries(filters):
 			tsii.stock_qty,
 			tsii.amount,
 			(
-				SELECT GROUP_CONCAT(DISTINCT tsip.mode_of_payment ORDER BY tsip.idx SEPARATOR ', ')
+				SELECT GROUP_CONCAT(
+					CONCAT(tsip.mode_of_payment, ' (', FORMAT(tsip.amount, 2), ')')
+					ORDER BY tsip.idx
+					SEPARATOR ', '
+				)
 				FROM `tabSales Invoice Payment` tsip
 				WHERE tsip.parent = tsi.name AND tsip.amount > 0
 			) AS mode_of_payment
