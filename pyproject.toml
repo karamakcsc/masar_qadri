@@ -8,8 +8,7 @@ requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]
 dependencies = [
-    "qrcode[pil]>=7.4.2",
-    "barcode[pil]>=0.15.1"
+    # frappe -- https://github.com/frappe/frappe is installed via 'bench init'
 ]
 [build-system]
 requires = ["flit_core >=3.4,<4"]
