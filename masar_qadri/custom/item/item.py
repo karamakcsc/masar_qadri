@@ -2,7 +2,7 @@ import frappe
 from json import loads
 from re import sub
 from datetime import datetime
-
+##
 def validate(self , method ): 
     rename_with_description(self)
     generate_barcode(self)
